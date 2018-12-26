@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block title_block %}
+    Jemmy's Collection
+{% endblock title_block %}
+    
+
+{% block descr_block %}
+    Jemmy's Collection
+{% endblock descr_block %}
+    
+
+{% block body_block %}
+    <div class="products">
+        
+        {% for product in products %}
+            <div class="product">
+                <div class="prod-photo">
+                    
+                    {% if product.photos %}
+                        {% for i in product.photos %}
+                            <img src="{{ i.photo.url }}" alt="{{ product.details.name }}'s photo" 
+                            {% if forloop.last %}
+                                class="d-none"
+                            {% endif %}
+                                >
+                        {% endfor %}
+                    {% else %}
+                        <!--No image image-->
+                    {% endif %}
+                        
+                
+                </div>
+                <div class="prod-details">
+                    <p>{{ product.details.name }}</p>
+                    <p>{{ product.details.price }}</p>
+                </div>
+            </div>
+        {% endfor %}
+            
+    </div>
+{% endblock body_block %}
+    

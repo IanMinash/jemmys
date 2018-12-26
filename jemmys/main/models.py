@@ -1,12 +1,12 @@
 from django.db import models
-
+from djmoney.models.fields import MoneyField
 
 class Product(models.Model):
     """Model definition for a Product."""
 
     name = models.CharField(max_length=65)
     description = models.CharField(max_length=800)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = MoneyField(max_digits=14, decimal_places=2, default_currency='KES')
     category = models.CharField(max_length=30)
 
     class Meta:
@@ -24,7 +24,7 @@ class ProductPhoto(models.Model):
     """Model definition for a Product's Photos."""
 
     photo = models.ImageField(upload_to='product_photos')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
 
     class Meta:
         """Meta definition for ProductPhotos."""

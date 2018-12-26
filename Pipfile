@@ -10,6 +10,7 @@ django = "*"
 pylint-django = "*"
 pylint = "*"
 pillow = "*"
+django-money = "*"
 
 [requires]
 python_version = "3.6"
