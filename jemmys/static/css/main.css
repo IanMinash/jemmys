@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
+:root {
+  font-family: "Montserrat", sans-serif;
+}
+
+.products {
+  display: grid;
+  grid-gap: 2em;
+}
+
+.product {
+  width: 18rem;
+  z-index: 10;
+  box-shadow: 0 0 1em rgb(128, 128, 128);
+  margin: auto;
+  border-radius: 0.5em;
+  transition: all 0.3s ease-in-out;
+}
+
+.product:hover {
+  box-shadow: 0 0 1.35em rgb(128, 128, 128);
+}
+
+.prod-photo img {
+  width: 100%;
+  border-top-left-radius: calc(0.5rem - 1px);
+  border-top-right-radius: calc(0.5rem - 1px);
+}
+
+.prod-photo img {
+  transition: all 0.3s ease-in-out;
+}
+
+.d-hidden {
+  visibility: hidden;
+}
+
+.d-none {
+  display: none;
+}
+
+.prod-details {
+  padding: 0.5rem;
+}
+
+.prod-details .title {
+  margin: 0;
+  font-weight: bold;
+}
+
+.prod-details p {
+  margin-top: 0.125rem;
+  margin-bottom: 0.125rem;
+}
+
+.act-themed {
+  text-align: center;
+  background-color: #14c967;
+  color: #fafafa;
+  text-decoration: none;
+  padding: 0.25em;
+  display: block;
+  margin-top: 0.35em;
+  margin-bottom: 0.175em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 0.25em;
+  transition: all 0.3s ease-in;
+}
+
+.act-themed:hover {
+  background-color: #00af52;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .products {
+    grid-template-columns: auto auto;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .products {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .products {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}

@@ -19,6 +19,8 @@
                 <div class="prod-photo">
                     
                     {% if product.photos %}
+                    
+                    {% if product.photos|length > 1 %}
                         {% for i in product.photos %}
                             <img src="{{ i.photo.url }}" alt="{{ product.details.name }}'s photo" 
                             {% if forloop.last %}
@@ -27,14 +29,22 @@
                                 >
                         {% endfor %}
                     {% else %}
+                        {% for i in product.photos %}
+                            <img src="{{ i.photo.url }}" alt="{{ product.details.name }}'s photo">
+                        {% endfor %}                        
+                    {% endif %}
+                        
+
+                    {% else %}
                         <!--No image image-->
                     {% endif %}
                         
                 
                 </div>
                 <div class="prod-details">
-                    <p>{{ product.details.name }}</p>
+                    <p class="title">{{ product.details.name }}</p>
                     <p>{{ product.details.price }}</p>
+                    <a class="act-themed" href="{% url 'view_product' product.details.slug %}">VIEW</a> 
                 </div>
             </div>
         {% endfor %}

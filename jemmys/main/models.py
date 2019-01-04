@@ -1,13 +1,15 @@
 from django.db import models
+from django.utils.text import slugify
 from djmoney.models.fields import MoneyField
 
 class Product(models.Model):
     """Model definition for a Product."""
 
-    name = models.CharField(max_length=65)
+    name = models.CharField(max_length=50)
     description = models.CharField(max_length=800)
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='KES')
     category = models.CharField(max_length=30)
+    slug = models.SlugField()
 
     class Meta:
         """Meta definition for Product."""
@@ -18,6 +20,10 @@ class Product(models.Model):
     def __str__(self):
         """Unicode representation of Product."""
         return f"{self.name} - {self.price}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
 
 
 class ProductPhoto(models.Model):

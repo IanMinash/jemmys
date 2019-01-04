@@ -1,3 +1,5 @@
+{% load staticfiles %}
+{% load djmoney %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +18,7 @@
         {% endblock descr_block %}            
     ">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}" /> 
 </head>
 <body>
     <div id="navbar">
@@ -33,6 +34,8 @@
     {% endblock body_block %}
     <div id="footer">
         
-    </div>   
+    </div>
+    <script src="{% static 'js/main.js' %}"></script> 
+       
 </body>
 </html>

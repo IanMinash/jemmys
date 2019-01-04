@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Product, ProductPhoto
 
 # Create your views here.
@@ -13,4 +13,16 @@ def home(request):
         product = {'details':prod, 'photos':list()}
         product['photos'] = [*photos]
         context['products'].append(product)
-    return render(request, "home.html", context=context)
+    return render(request, "main/home.html", context=context)
+
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "main/product.html"
+
+
+
+def about(request):
+    return render(request, "main/about.html")
+
