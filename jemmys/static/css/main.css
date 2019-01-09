@@ -4,18 +4,133 @@
   font-family: "Montserrat", sans-serif;
 }
 
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+#navbar {
+  position: fixed;
+  right: 0;
+  left: 0;
+  background-color: #fafafa;
+  box-shadow: 0 3px 10px rgb(128, 128, 128);
+  z-index: 1000;
+}
+
+#navbar div {
+  padding: 0.2em 5%;
+}
+
+#navbar .nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+#navbar .cat {
+  display: none;
+}
+
+#navbar button,
+#side-nav button {
+  background: none;
+  border: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+#navbar>.cat span {
+  font-size: 0.685em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(46, 46, 46);
+  display: block;
+  padding: 0.5em;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+#navbar>.cat span:hover {
+  color: #14c967;
+}
+
+button:hover {
+  fill: #14c967;
+}
+
+
+#side-nav button {
+  float: left;
+  position: relative;
+  margin-left: 2.5em;
+  padding: 0;
+}
+
+#main {
+  padding-top: 4.8em;
+}
+
+#footer {
+  min-height: 18rem;
+  background-color: #f4f4f4;
+}
+
+#side-nav {
+  max-width: 80vw;
+  width: 50rem;
+  height: 100vh;
+  padding-top: 4em;
+  background-color: white;
+}
+
+.side-nav-bg {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  z-index: 1200;
+  transition: transform 0.4s ease-in-out, background 0.8s ease-in-out;
+}
+
+.side-nav-bg.dismissed {
+  transform: translateX(-100%);
+  background: none;
+}
+
+.title {
+  font-weight: bold;
+}
+
 .products {
   display: grid;
   grid-gap: 2em;
+  padding: 1em 5%;
 }
 
 .product {
-  width: 18rem;
+  min-width: 18rem;
   z-index: 10;
   box-shadow: 0 0 1em rgb(128, 128, 128);
   margin: auto;
   border-radius: 0.5em;
   transition: all 0.3s ease-in-out;
+}
+
+.prod-photo {
+  overflow: hidden;
+}
+
+.info {
+  padding: 0 5%;
+  padding-bottom: 1em;
+}
+
+.order {
+  min-width: 18rem;
+  border-radius: 0.5em;
+  box-shadow: 0 0 0.5em rgb(128, 128, 128);
+  padding: 1em;
+  margin: 1em auto;
 }
 
 .product:hover {
@@ -54,25 +169,100 @@
   margin-bottom: 0.125rem;
 }
 
+button {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+}
+
+button.act-themed {
+  width: 100%;
+}
+
 .act-themed {
   text-align: center;
   background-color: #14c967;
   color: #fafafa;
   text-decoration: none;
-  padding: 0.25em;
+  padding: 0.25rem;
   display: block;
-  margin-top: 0.35em;
-  margin-bottom: 0.175em;
+  margin-top: 0.35rem;
+  margin-bottom: 0.175rem;
   font-weight: 800;
   letter-spacing: 1px;
-  border-radius: 0.25em;
+  border-radius: 0.25rem;
   transition: all 0.3s ease-in;
+  border: 0;
 }
 
 .act-themed:hover {
   background-color: #00af52;
+  color: #fafafa;
 }
 
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+#curr-photo {
+  width: 100%;
+}
+
+.for-select {
+  height: 4.5em;
+  width: 4.5em;
+  position: relative;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay.d-none {
+  display: none !important;
+}
+
+.site {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(46, 46, 46);
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #14c967;
+}
+
+.site a,
+#side-nav a {
+  margin: 0.5em;
+  display: inline-block;
+}
+
+.site p {
+  margin: 0.5em 0;
+}
+
+.text-centered {
+  text-align: center;
+}
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   .products {
@@ -82,19 +272,35 @@
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .products {
-    grid-template-columns: auto auto auto;
+  .product {
+    max-width: 20em;
   }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+  #navbar .cat {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+  }
+
   .products {
     grid-template-columns: auto auto auto;
+  }
+
+  #main {
+    padding-top: 6.2em;
   }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+
+  .products {
+    grid-template-columns: auto auto auto auto;
+  }
+
+
 
 }

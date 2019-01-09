@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+autopep8 = "*"
 
 [packages]
 django = "*"
@@ -11,6 +12,7 @@ pylint-django = "*"
 pylint = "*"
 pillow = "*"
 django-money = "*"
+djangoajax = "*"
 
 [requires]
 python_version = "3.6"

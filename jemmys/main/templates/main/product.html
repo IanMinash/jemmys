@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title_block %}
+  {{ product.name }}
+{% endblock title_block %}
+
+{% block descr_block %}
+  {{ product.description|truncatechars:300 }}
+{% endblock descr_block %}
+
+{% block body_block %}
+<div class="info">
+    <p class="title m-0">{{ product.name }}</p>
+</div>
+<div>
+    <img src="{{ photos.0.photo.url }}" alt="" id="curr-photo">
+    <div class="flex">
+        {% if photos %}
+            {% for photo in photos %}
+                <div class="for-select">
+                    {% if forloop.first %}
+                    <img src="{{ photo.photo.url }}" alt="" class="for-select selected">
+                    <div class="overlay flex">
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 45.701 45.7" style="height:2.25em; fill: #fafafa;" xml:space="preserve">
+                            <g>
+                                <g>
+                                    <path d="M20.687,38.332c-2.072,2.072-5.434,2.072-7.505,0L1.554,26.704c-2.072-2.071-2.072-5.433,0-7.504
+                                                            c2.071-2.072,5.433-2.072,7.505,0l6.928,6.927c0.523,0.522,1.372,0.522,1.896,0L36.642,7.368c2.071-2.072,5.433-2.072,7.505,0
+                                                            c0.995,0.995,1.554,2.345,1.554,3.752c0,1.407-0.559,2.757-1.554,3.752L20.687,38.332z" />
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    {% else %}
+                    <img src="{{ photo.photo.url }}" alt="" class="for-select">
+                    <div class="overlay flex d-none">
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 45.701 45.7" style="height:2.25em; fill: #fafafa;" xml:space="preserve">
+                            <g>
+                                <g>
+                                    <path d="M20.687,38.332c-2.072,2.072-5.434,2.072-7.505,0L1.554,26.704c-2.072-2.071-2.072-5.433,0-7.504
+                                                            c2.071-2.072,5.433-2.072,7.505,0l6.928,6.927c0.523,0.522,1.372,0.522,1.896,0L36.642,7.368c2.071-2.072,5.433-2.072,7.505,0
+                                                            c0.995,0.995,1.554,2.345,1.554,3.752c0,1.407-0.559,2.757-1.554,3.752L20.687,38.332z" />
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<section class="info">
+    <div class="order">
+        <p class="m-0 title">{{ product.price }}</p>
+        <button class="act-themed">ADD TO CART</button>
+        <div class="flex" style="align-items:center; margin-top:0.35rem;">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 477.3 477.3" style="enable-background:new 0 0 477.3 477.3; height: 1.5em;" xml:space="preserve">
+                <g>
+                    <path d="M451.3,150.55c-15.9-17.2-38.5-26.6-63.6-26.6h-65.5v-36.8c0-6.6-5.4-12-12-12H12c-6.6,0-12,5.4-12,12v263.9
+                                    c0,6.6,5.4,12,12,12h47.8c3.9,22.2,23.2,39.1,46.5,39.1s42.6-16.9,46.5-39.1h157.4h26.3c3.9,22.2,23.2,39.1,46.5,39.1
+                                    s42.6-16.9,46.5-39.1h35.8c6.6,0,12-5.4,12-12v-124C477.2,195.35,468.3,168.85,451.3,150.55z M24,99.15h274.2v36.8v203.2H150.7
+                                    c-6.5-18.2-24-31.3-44.4-31.3s-37.9,13.1-44.4,31.3H24V99.15z M106.3,378.15c-12.8,0-23.2-10.4-23.2-23.2
+                                    c0-12.8,10.4-23.2,23.2-23.2s23.2,10.4,23.2,23.2S119.1,378.15,106.3,378.15z M383,378.15c-12.8,0-23.2-10.4-23.2-23.2
+                                    c0-12.8,10.4-23.2,23.2-23.2c12.8,0,23.2,10.4,23.2,23.2S395.8,378.15,383,378.15z M453.2,339.05h-25.8
+                                    c-6.5-18.2-24-31.3-44.4-31.3s-37.9,13.1-44.4,31.3h-16.3v-191.1h65.5c40.4,0,65.5,30.3,65.5,79.1v112H453.2z" />
+                </g>
+            </svg>
+            <p class="m-0" style="padding-left:1em">1 day</p>
+        </div>
+    </div>
+    <div class="desc">
+        <p class="title m-0">About this item</p>
+        <div>
+            {{ product.description|safe }}
+        </div>
+    </div>
+</section>
+{% if others %}
+<section style="padding:1em 5%">
+    <p class="title m-0">Other {{ product.category }}</p>
+    <div>
+        {% for product in others %}
+            <div class="product">
+                <div class="prod-photo">
+                    
+                    {% if product.photos %}
+                    
+                        {% if product.photos|length > 1 %}
+                            {% for i in product.photos %}
+                                <img src="{{ i.photo.url }}" alt="{{ product.details.name }}'s photo" 
+                                {% if forloop.last %}
+                                    class="d-none"
+                                {% endif %}
+                                    >
+                            {% endfor %}
+                        {% else %}
+                            {% for i in product.photos %}
+                                <img src="{{ i.photo.url }}" alt="{{ product.details.name }}'s photo">
+                            {% endfor %}                        
+                        {% endif %}
+                        
+                    {% else %}
+                        <!--No image image-->
+                    {% endif %}
+                        
+                
+                </div>
+                <div class="prod-details">
+                    <p class="title">{{ product.details.name }}</p>
+                    <p>{{ product.details.price }}</p>
+                    <a class="act-themed" href="{% url 'view_product' product.details.slug %}">VIEW</a> 
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endblock body_block %}
+
+{% block script_block %}
+<script>
+    function selectPhoto() {
+        var mainPhoto = document.querySelector('#curr-photo')
+        var selectedPhoto = document.querySelector('.for-select .selected');
+        if (selectedPhoto) {
+            selectedPhoto.classList.toggle('selected');
+            selectedPhoto.nextElementSibling.classList.toggle('d-none');
+        }
+        this.classList.toggle('selected');
+        this.nextElementSibling.classList.toggle('d-none');
+        mainPhoto.setAttribute('src', this.getAttribute('src'));
+
+    }
+    var photos = document.querySelectorAll('.for-select img');
+    photos.forEach(function (photo) {
+        photo.addEventListener('click', selectPhoto)
+    });
+</script>
+{% endblock script_block %}
