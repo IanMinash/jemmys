@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title_block %}
-  {{ product.name }}
+  {{ product.name }} | Jemmy's Collection
 {% endblock title_block %}
 
 {% block descr_block %}
@@ -20,7 +20,7 @@
                 {% for photo in photos %}
                     <div class="for-select">
                         {% if forloop.first %}
-                        <img src="{{ photo.photo.url }}" alt="" class="for-select selected">
+                        <img src="{{ photo.photo.url }}" alt="" class="for-select selected" onclick="selectPhoto(event)">
                         <div class="overlay flex">
                             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                 viewBox="0 0 45.701 45.7" style="height:2.25em; fill: #fafafa;" xml:space="preserve">
@@ -34,7 +34,7 @@
                             </svg>
                         </div>
                         {% else %}
-                        <img src="{{ photo.photo.url }}" alt="" class="for-select">
+                        <img src="{{ photo.photo.url }}" alt="" class="for-select" onclick="selectPhoto(event)">
                         <div class="overlay flex d-none">
                             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                 viewBox="0 0 45.701 45.7" style="height:2.25em; fill: #fafafa;" xml:space="preserve">
@@ -57,14 +57,28 @@
     <section class="info">
         <div class="order">
             <p class="m-0 title">{{ product.price }}</p>
-            <span>Quantity: </span> 
-            <select name="quantity" id="quantity">
-                
-                {% for i in quantity %}
-                    <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
+            <div class="d-block">
+                <span>Quantity: </span> 
+                <select name="quantity" id="quantity">
                     
-            </select>
+                    {% for i in quantity %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                        
+                </select>
+            </div>
+            <div class="d-block">
+                {% if variants %}
+                <span>Option: </span>
+                <select name="variant" id="variant" onchange="variantChange(event)">
+                    <option value="{{ product.id }}">--------------</option>
+                    {% for variant in variants %}
+                        <option value="{{ variant.id }}">{{ variant.name }}</option>
+                    {% endfor %}
+                        
+                </select>
+                {% endif %}
+            </div>
             <button id="add-cart" class="act-themed">ADD TO CART</button>
             <div class="flex" style="align-items:center; margin-top:0.35rem;">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -135,16 +149,62 @@
 
 {% block script_block %}
 <script>
-    function selectPhoto() {
+    const tickSvg = document.querySelector('.overlay.flex').innerHTML
+
+    function variantChange(event) {
+        var variantSelector = document.querySelector('#variant');
+        var quantitySelector = document.querySelector('#quantity');
+        var mainPhoto = document.querySelector('#curr-photo');
+        var imageContainer = document.querySelector('.flex.images>.flex');
+
+        $.post("{% url 'variant-info' %}", {id: variantSelector.value, csrfmiddlewaretoken: '{{ csrf_token }}'}).done(function (data) {
+            if (data.statusText == 'OK') {
+                quantitySelector.innerHTML = null;
+                for (let i = 1; i <= data.content.quantity; i++) {
+                    var option = document.createElement('option');
+                    option.setAttribute('value', i);
+                    option.innerText = i;
+                    quantitySelector.appendChild(option);                    
+                }
+                mainPhoto.setAttribute('src', data.content.photos[0]);
+                imageContainer.innerHTML = null;
+                for (let i = 0; i < data.content.photos.length; i++) {
+                    var forSel = document.createElement('div');
+                    var img = document.createElement('img');
+                    forSel.className = img.className = 'for-select';
+                    var sel = document.createElement('div');
+                    sel.classList.add('overlay', 'flex');
+                    sel.innerHTML = tickSvg;
+                    img.setAttribute('src', data.content.photos[i]);
+                    img.setAttribute('onclick', 'selectPhoto(event)')
+                    
+                    if (i == 0) {
+                        img.classList.add('selected');
+                        forSel.appendChild(img);
+                        forSel.appendChild(sel);
+                    } else {
+                        forSel.appendChild(img);
+                        sel.classList.add('d-none');
+                        forSel.appendChild(sel);
+                    }
+                    console.log(forSel);
+                    imageContainer.appendChild(forSel);
+                }
+            }
+            });
+    }
+
+    function selectPhoto(event) {
+        var thisPhoto = event.target;
         var mainPhoto = document.querySelector('#curr-photo')
         var selectedPhoto = document.querySelector('.for-select .selected');
         if (selectedPhoto) {
             selectedPhoto.classList.toggle('selected');
             selectedPhoto.nextElementSibling.classList.toggle('d-none');
         }
-        this.classList.toggle('selected');
-        this.nextElementSibling.classList.toggle('d-none');
-        mainPhoto.setAttribute('src', this.getAttribute('src'));
+        thisPhoto.classList.toggle('selected');
+        thisPhoto.nextElementSibling.classList.toggle('d-none');
+        mainPhoto.setAttribute('src', thisPhoto.getAttribute('src'));
 
     }
     var photos = document.querySelectorAll('.for-select img');
@@ -152,10 +212,18 @@
         photo.addEventListener('click', selectPhoto)
     });
     var quantitySelect = document.querySelector('#quantity');
+    
     var cartButton = document.querySelector('#add-cart');
+    
     cartButton.addEventListener('click', function addToCart(){
         var thisButton = this;
         var productInfo = {id: '{{ product.id }}', quantity: quantitySelect.value, csrfmiddlewaretoken: '{{ csrf_token }}', action: 'add'};
+        var variantSelector = document.querySelector('#variant');
+        if (variantSelector) {
+            if (variantSelector.value != '{{ product.id }}') {
+                productInfo.id = variantSelector.value;
+            }
+        }
         $.post("{% url 'cart-manager' %}", productInfo).done(function (data) {
             if (data.statusText == 'OK') {
                 thisButton.style.color = '#14c967'

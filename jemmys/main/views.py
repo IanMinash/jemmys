@@ -9,11 +9,11 @@ def home(request):
     context = dict()
     context['products'] = list()
     if request.GET.get('category'):
-        all_products = Product.objects.filter(category__category=request.GET['category'])
+        all_products = Product.objects.filter(category__category=request.GET['category'], variant_of=None)
     elif request.GET.get('name'):
         all_products = Product.objects.filter(name=request.GET['name'])
     else:
-        all_products = Product.objects.all()
+        all_products = Product.objects.filter(variant_of=None)
     for prod in all_products:
         photos = ProductPhoto.objects.filter(product=prod)[:2]
         product = {'details':prod, 'photos':list()}
@@ -33,8 +33,9 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         context['photos'] = ProductPhoto.objects.filter(product=product)
         # Other products of the same category
-        others = Product.objects.exclude(id__exact=context['product'].id).filter(category__exact=context['product'].category)
+        others = Product.objects.exclude(id__exact=context['product'].id).filter(category__exact=context['product'].category, variant_of=None)
         context['others'] = list()
+        context['variants'] = Product.objects.filter(variant_of=product)
         context['quantity'] = range(1,product.quantity+1)
         for other in others:
             photos = ProductPhoto.objects.filter(product=other)[:2]
@@ -43,6 +44,17 @@ class ProductDetailView(DetailView):
             context['others'].append(product)
         return context
 
+
+@ajax
+def variants(request):
+    if request.method == 'POST':
+        p_id = request.POST.get('id')
+        product = Product.objects.get(id=p_id)
+        photo_urls = list()
+        photos = ProductPhoto.objects.filter(product=product)
+        for photo in photos:
+            photo_urls.append(str(photo.photo.url))
+        return {'quantity': product.quantity, 'photos':photo_urls}
 
 def about(request):
     return render(request, "main/about.html")
@@ -94,13 +106,11 @@ def cart_manager(request):
                     item_price = product.price * p_qty
                     total += item_price
                     status = 'updated!'
-                    print(f"{item['id']}-{item_price} {total}")
                 else:
                     items += item['quantity']
                     this_product = Product.objects.get(id=item['id'])
                     this_product_price = this_product.price * item['quantity']
                     total += this_product_price
-                    print(f"{item['id']}-{item_price} {total}")
             request.session['cart'] = cart
             request.session.save()
             return {'text':status, 'total':str(total), 'items':items, 'itemPrice': str(item_price)}
@@ -138,7 +148,6 @@ def cart_manager(request):
                     product = Product.objects.get(id=item['id'])
                     item_price = product.price * item['quantity']
                     total += item_price
-                    print(f"{item['id']}-{item_price} {total}")
             request.session['cart'] = cart
             request.session.save()
             return {'text':status, 'total':str(total), 'items':items}

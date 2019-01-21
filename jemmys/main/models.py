@@ -27,6 +27,7 @@ class Product(models.Model):
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='KES')
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='products')
     quantity = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+    variant_of = models.ForeignKey("self", on_delete=models.CASCADE, related_name='variants', blank=True, null=True)
     slug = models.SlugField(blank=True)
 
     class Meta:
@@ -60,18 +61,3 @@ class ProductPhoto(models.Model):
     def __str__(self):
         """Unicode representation of ProductPhotos."""
         return f"{self.product.name}'s photo"
-
-class ProductVariant(models.Model):
-    """Model definition for a Product Variant."""
-
-    # TODO: Define fields here
-
-    class Meta:
-        """Meta definition for a Product Variant."""
-
-        verbose_name = 'Product Variant'
-        verbose_name_plural = 'Product Variants'
-
-    def __str__(self):
-        """Unicode representation of ProductVariant."""
-        pass

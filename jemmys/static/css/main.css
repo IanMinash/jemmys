@@ -140,12 +140,12 @@ tr.total {
   font-size: 1.2em;
 }
 
-#quantity {
+select {
   border-radius: 0.25em;
   border: 1px solid rgb(128, 128, 128);
   text-align: center;
   display: inline-block;
-  width: 5em;
+  min-width: 5em;
 }
 
 .products {
@@ -192,6 +192,11 @@ tr.total {
 
 .order table td.l {
   font-weight: bold;
+}
+
+.order span {
+  display: inline-block;
+  width: 5em;
 }
 
 .product:hover {
