@@ -17,6 +17,7 @@ class ProductCategory(models.Model):
     def __str__(self):
         """Unicode representation of Product Category."""
         return self.category
+        
 
 class Product(models.Model):
     """Model definition for a Product."""
@@ -59,3 +60,18 @@ class ProductPhoto(models.Model):
     def __str__(self):
         """Unicode representation of ProductPhotos."""
         return f"{self.product.name}'s photo"
+
+class ProductVariant(models.Model):
+    """Model definition for a Product Variant."""
+
+    # TODO: Define fields here
+
+    class Meta:
+        """Meta definition for a Product Variant."""
+
+        verbose_name = 'Product Variant'
+        verbose_name_plural = 'Product Variants'
+
+    def __str__(self):
+        """Unicode representation of ProductVariant."""
+        pass

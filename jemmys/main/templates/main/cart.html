@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title_block %}
+    Your Cart({{ num_items }}) | Jemy's Collection
+{% endblock title_block %}
+
+{% block body_block %}
+<div class="grid cart" style="padding: 0 5%;">
+    <div class="items">
+        <p class="title">ITEMS IN YOUR CART</p>
+        <hr>
+        
+        {% for item in cart %}
+            <div class="item grid">
+                <img src="{{ item.photo.photo.url }}" alt="{{ item.product.name }}'s photo" style="width:100%"> 
+                <div>
+                    <p class="m-0 mb-d5 title">{{ item.product.name }}</p>
+                    <span class="d-block">
+                        <input type="number" name="quantity" initial="{{ item.quantity }}" min="1" max="{{ item.product.quantity }}" id="{{ item.product.id }}-quantity" class="d-block" value="{{ item.quantity }}">
+                        <small class="c-themed d-none" style="cursor:pointer;" p-id="{{ item.product.id }}" onclick="updateCart(event)">update</small>
+                    </span>
+                    <small class="c-danger d-block" style="cursor:pointer; margin-top:1em;" p-id="{{ item.product.id }}" onclick="deleteFromCart(event)">delete</small>
+                </div>
+                <div>
+                    <p class="m-0">{{ item.price }}</p>
+                </div>
+            </div>
+        {% empty %}
+        
+        {% endfor %}
+            
+    </div>
+
+    <div class="order">
+        <table>
+            <tbody>
+                <tr>
+                    <td id="cart-items" class="l">Items({{ num_items }})</td>
+                    <td id="items-total" class="r">{{ total }}</td>
+                </tr>
+                <tr>
+                    <td class="l">Shipping</td>
+                    <td class="r">-</td>
+                </tr>
+                <tr>
+                    <td class="p-0">
+                        <div class="sep"></div>
+                    </td>
+                    <td class="p-0">
+                        <div class="sep"></div>
+                    </td>
+                </tr>
+                <tr class="total">
+                    <td class="l">Total</td>
+                    <td id="cart-total" class="r">{{ total }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="#checkout" class="act-themed">GO TO CHECKOUT</a>
+    </div>
+    
+</div>
+{% endblock body_block %}
+
+{% block script_block %}
+<script>
+        function toggleDisplay() {
+            if (this.value != this.getAttribute('initial')) {
+                this.nextElementSibling.classList.remove('d-none');
+            } else {
+                this.nextElementSibling.classList.add('d-none');
+            }
+        }
+
+        function updateCart(event) {
+            var updateButton = event.target;
+            var quantityChanger = updateButton.previousElementSibling;
+            var data = { id: updateButton.getAttribute('p-id'), quantity: quantityChanger.value, csrfmiddlewaretoken: '{{ csrf_token }}', action: 'update' };
+            $.post("{% url 'cart-manager' %}", data).done(function (data) {
+                if (data.statusText == 'OK') {
+                    quantityChanger.setAttribute('initial', quantityChanger.value);
+                    updateButton.innerHTML = 'updated!';
+                    document.querySelector('#cart-total').innerHTML = document.querySelector('#items-total').innerHTML = data.content.total;
+                    document.querySelector('#cart-items').innerHTML = `Items(${data.content.items})`;
+                    updateButton.parentElement.parentElement.nextElementSibling.innerHTML = `<p class="m-0">${data.content.itemPrice}</p>`;
+                    setTimeout(function () {
+                        updateButton.classList.add('d-none');
+                        updateButton.innerHTML = 'update';
+                    }, 1300);
+                    cartItems();
+                }
+            });
+        }
+
+        function deleteFromCart(event) {
+            var delButton = event.target;
+            var thisItem = delButton.parentElement.parentElement;
+            var data = { id: delButton.getAttribute('p-id'), csrfmiddlewaretoken: '{{ csrf_token }}', action: 'delete' };
+            $.post("{% url 'cart-manager' %}", data).done(function (data) {
+                if (data.statusText == 'OK') {
+                    thisItem.classList.remove('grid');
+                    thisItem.innerHTML = `<p class="text-centered">${data.content.text}</p>`;
+                    document.querySelector('#cart-total').innerHTML = document.querySelector('#items-total').innerHTML = data.content.total;
+                    document.querySelector('#cart-items').innerHTML = `Items(${data.content.items})`;
+                    setTimeout(function () { 
+                        thisItem.remove(); 
+                    }, 1300);
+                    cartItems();
+                }
+            })
+        }
+
+        var quantityChangers = document.querySelectorAll('input[type=number]');
+        for (var i = 0; i < quantityChangers.length; i++) {
+            quantityChangers[i].addEventListener("change", toggleDisplay);
+        } 
+</script>
+{% endblock script_block %}

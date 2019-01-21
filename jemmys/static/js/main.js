@@ -1,11 +1,12 @@
 var productPhotos = document.querySelectorAll(".product .prod-photo");
 
-function toggleNav(){
-  document.querySelector('.side-nav-bg').classList.toggle("dismissed");
+function toggleSide(){
+  var id = this.getAttribute('target');
+  document.getElementById(id).classList.toggle("dismissed");
 }
 
-document.querySelector('#show-nav').addEventListener("click", toggleNav);
-document.querySelector('#dismiss-nav').addEventListener("click", toggleNav);
+document.querySelector('#show-nav').addEventListener("click", toggleSide);
+document.querySelector('#dismiss-nav').addEventListener("click", toggleSide);
 
 function toggleImage() {
   images = this.querySelectorAll("img");

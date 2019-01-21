@@ -23,7 +23,7 @@
 <body>
     <div id="navbar">
         <div class="nav">
-            <button id="show-nav">
+            <button id="show-nav" class="flex" target="side-nav-bg">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     viewBox="0 0 53 53" style="enable-background:new 0 0 53 53; height: 1.35em;" xml:space="preserve">
                     <g>
@@ -70,26 +70,26 @@
                     </svg>
                 </a> 
             </div>
-            <button id="show-cart">
+            <a id="show-cart" class="flex" href="{% url 'cart' %}">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     viewBox="0 0 483.1 483.1" style="enable-background:new 0 0 483.1 483.1; height: 1.35em;" xml:space="preserve">
                     <g>
                         <path d="M434.55,418.7l-27.8-313.3c-0.5-6.2-5.7-10.9-12-10.9h-58.6c-0.1-52.1-42.5-94.5-94.6-94.5s-94.5,42.4-94.6,94.5h-58.6
-                        c-6.2,0-11.4,4.7-12,10.9l-27.8,313.3c0,0.4,0,0.7,0,1.1c0,34.9,32.1,63.3,71.5,63.3h243c39.4,0,71.5-28.4,71.5-63.3
-                        C434.55,419.4,434.55,419.1,434.55,418.7z M241.55,24c38.9,0,70.5,31.6,70.6,70.5h-141.2C171.05,55.6,202.65,24,241.55,24z
-                         M363.05,459h-243c-26,0-47.2-17.3-47.5-38.8l26.8-301.7h47.6v42.1c0,6.6,5.4,12,12,12s12-5.4,12-12v-42.1h141.2v42.1
-                        c0,6.6,5.4,12,12,12s12-5.4,12-12v-42.1h47.6l26.8,301.8C410.25,441.7,389.05,459,363.05,459z" />
+                                    c-6.2,0-11.4,4.7-12,10.9l-27.8,313.3c0,0.4,0,0.7,0,1.1c0,34.9,32.1,63.3,71.5,63.3h243c39.4,0,71.5-28.4,71.5-63.3
+                                    C434.55,419.4,434.55,419.1,434.55,418.7z M241.55,24c38.9,0,70.5,31.6,70.6,70.5h-141.2C171.05,55.6,202.65,24,241.55,24z
+                                     M363.05,459h-243c-26,0-47.2-17.3-47.5-38.8l26.8-301.7h47.6v42.1c0,6.6,5.4,12,12,12s12-5.4,12-12v-42.1h141.2v42.1
+                                    c0,6.6,5.4,12,12,12s12-5.4,12-12v-42.1h47.6l26.8,301.8C410.25,441.7,389.05,459,363.05,459z" />
                     </g>
                 </svg>
-            </button>
+            </a>
         </div>
         <div class="cat">
 
         </div>
     </div>
-    <div class="side-nav-bg dismissed">
+    <div id="side-nav-bg" class="dismissed">
         <div id="side-nav">
-            <button id="dismiss-nav">
+            <button id="dismiss-nav" target="side-nav-bg">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                 y="0px"
                 viewBox="0 0 47.971 47.971" style="height:1.35em" xml:space="preserve">
@@ -105,24 +105,24 @@
                 <a href="{% url 'home' %}">HOME</a>
                 <a href="">ITEMS</a>
                 <a href="{% url 'about' %}">ABOUT US</a>
-                <a href="">CONTACT US</a>
+                <a href="{% url 'contact' %}">CONTACT US</a>
                 <a href="">SHIPPING</a>
                 <a href="">ATTRIBUTIONS</a>
             </div>
         </div>
     </div>
     <div id="main">
-
         {% block body_block %}
             
         {% endblock body_block %}
     </div>
+
     <div id="footer">
         <div class="site info">
             <div class="flex" style="justify-content:center;">
                 <a href="{% url 'about' %}">ABOUT US</a>
                 <a href="">SHIPPING</a>
-                <a href="">CONTACT US</a>
+                <a href="{% url 'contact' %}">CONTACT US</a>
                 <a href="">ATTRIBUTIONS</a>
             </div>
             <div class="flex" style="justify-content:center;">
@@ -219,14 +219,11 @@
         <input type="text" name="" id="get_param">
     </form> 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-    
-    {% block script_block %}
-      
-    {% endblock script_block %} 
+        crossorigin="anonymous"></script> 
     <script src="{% static 'js/main.js' %}"></script>
     <script>
         var categoryContainer = document.querySelector('.cat');
+        var cartLink = document.querySelector('#show-cart');
         $.get("{% url 'cats' %}", function (data) {
             for (const category in data.content.categories) {
                 categoryContainer.innerHTML += `<span>${data.content.categories[category]}</span>`
@@ -235,7 +232,22 @@
                 categoryContainer.children[index].addEventListener("click", categoryRequest);
             }
         });
-
+        function cartItems() {
+            $.get("{% url 'cart-manager' %}", function (data) {
+                if (data.content.num_items > 0) {
+                    if (cartLink.querySelector('span')) {
+                        cartLink.querySelector('span').outerHTML = `<span class="cart-len">${data.content.num_items}</span>`
+                    } else {
+                        cartLink.innerHTML += `<span class="cart-len">${data.content.num_items}</span>`
+                    }
+                }
+            });
+        }
+        cartItems();
+        
     </script>
+    {% block script_block %}
+    
+    {% endblock script_block %}
 </body>
 </html>
