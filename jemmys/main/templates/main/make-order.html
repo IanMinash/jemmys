@@ -1,0 +1,520 @@
+{% extends "base.html" %}
+
+{% block title_block %}
+    Checkout | Jemmy's Collection
+{% endblock title_block %}
+
+{% block descr_block %}
+  
+{% endblock descr_block %}
+
+{% block body_block %}
+<div class="grid make-order" style="margin: 1em 5%;">
+    <div class="card">
+        {% if errors %}
+          <small style="color:#dc3545;"></small>
+        {% endif %}
+        <form action="{% url 'make-order' %}" id="customer-details" method="POST"> 
+            <div class="d-block mb-1">
+                <label for="namefield" class="d-i-block">Your name</label>
+                <input type="text" name="name" id="namefield" placeholder="Name" required>
+            </div>
+            <div class="d-block mb-1">
+                <label for="addressfield1" class="d-i-block">Address line 1</label>
+                <input type="text" name="street" id="addressfield1" placeholder="Street, Estate.." required>
+            </div>
+            <div class="d-block mb-1">
+                <label for="addressfield2" class="d-i-block">Address line 2</label>
+                <input type="text" name="house" id="addressfield2" placeholder="Apartment, Floor, House Number...">
+            </div>
+            <div class="grid mb-1">
+                <div class="">
+                    <label for="phonefield" class="d-i-block">Phone Number</label>
+                    <input type="tel" name="phone" id="phonefield" placeholder="+254712123123" required>
+                </div>
+                <div class="">
+                    <label for="phonefield" class="d-i-block">Your email</label>
+                    <input type="email" name="email" id="emailfield" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="grid mb-1">
+                <div>
+                    <label for="cityfield" class="d-i-block">City/Town</label>
+                    <input type="text" name="city" id="cityfield" required>
+                </div>
+                <div>
+                    <label for="regionfield" class="d-i-block">Region</label>
+                    <input type="text" name="region" id="regionfield" placeholder="Province, County, State...">
+                </div>
+                <div id="country">
+                    <label for="countryfield" class="d-i-block">Country</label>
+                    <input type="text" name="country" id="countryfield" placeholder="Country" list="country" required>
+                </div>
+                {% csrf_token %}
+            </div>
+            <input type="submit" value="GO TO PAYMENT" class="act-themed" style="padding:0.5em;">
+        </form>
+    </div>
+
+    <div id="order-items">
+        <p class="title m-0">ORDER SUMMARY</p>
+        <hr>
+        <div id="show-items">
+            <p class="m-0" style="cursor: pointer;">Show items</p>
+            <span style="margin-left:0.5em; display:flex; align-items:center;">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847; height: 1em; fill:#fafafa;"
+                    xml:space="preserve">
+                    <g>
+                        <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751
+                                        c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0
+                                        c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z" />
+                    </g>
+                </svg>
+            </span>
+            </div>
+        <div class="items">
+            {% for item in cart %}
+                <div class="item grid">
+                    <img src="{{ item.photo.photo.url }}" alt="{{ item.product.name }}'s photo" style="width:100%"> 
+                    <div>
+                        <p class="m-0 mb-d5 title">{{ item.product.name }}</p>
+                        <p class="m-0">x{{ item.quantity }}</p>
+                        <p class="m-0">{{ item.price }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="summary" class="item grid" style="border-top:1px solid rgb(128,128,128); padding:1em 0;">
+            <div>
+                <p class="m-0 title" style="font-size:1.2em">Shipping</p>
+            </div>
+            <div>
+                <p class="m-0">-</p>
+            </div>
+            <div>
+                <p class="m-0 title" style="font-size:1.2em">Total</p>
+            </div>
+            <div>
+                <p class="m-0">{{ total }}</p>
+            </div>
+        </div>  
+
+    </div>
+
+</div>
+<datalist id="country">
+    <option value="Afghanistan">
+    </option>
+    <option value="Albania">
+    </option>
+    <option value="Algeria">
+    </option>
+    <option value="Andorra">
+    </option>
+    <option value="Angola">
+    </option>
+    <option value="Antigua &amp; Deps">
+    </option>
+    <option value="Argentina">
+    </option>
+    <option value="Armenia">
+    </option>
+    <option value="Australia">
+    </option>
+    <option value="Austria">
+    </option>
+    <option value="Azerbaijan">
+    </option>
+    <option value="Bahamas">
+    </option>
+    <option value="Bahrain">
+    </option>
+    <option value="Bangladesh">
+    </option>
+    <option value="Barbados">
+    </option>
+    <option value="Belarus">
+    </option>
+    <option value="Belgium">
+    </option>
+    <option value="Belize">
+    </option>
+    <option value="Benin">
+    </option>
+    <option value="Bhutan">
+    </option>
+    <option value="Bolivia">
+    </option>
+    <option value="Bosnia Herzegovina">
+    </option>
+    <option value="Botswana">
+    </option>
+    <option value="Brazil">
+    </option>
+    <option value="Brunei">
+    </option>
+    <option value="Bulgaria">
+    </option>
+    <option value="Burkina">
+    </option>
+    <option value="Burundi">
+    </option>
+    <option value="Cambodia">
+    </option>
+    <option value="Cameroon">
+    </option>
+    <option value="Canada">
+    </option>
+    <option value="Cape Verde">
+    </option>
+    <option value="Central African Rep">
+    </option>
+    <option value="Chad">
+    </option>
+    <option value="Chile">
+    </option>
+    <option value="China">
+    </option>
+    <option value="Colombia">
+    </option>
+    <option value="Comoros">
+    </option>
+    <option value="Congo">
+    </option>
+    <option value="Congo {Democratic Rep}">
+    </option>
+    <option value="Costa Rica">
+    </option>
+    <option value="Croatia">
+    </option>
+    <option value="Cuba">
+    </option>
+    <option value="Cyprus">
+    </option>
+    <option value="Czech Republic">
+    </option>
+    <option value="Denmark">
+    </option>
+    <option value="Djibouti">
+    </option>
+    <option value="Dominica">
+    </option>
+    <option value="Dominican Republic">
+    </option>
+    <option value="Timor Leste">
+    </option>
+    <option value="Ecuador">
+    </option>
+    <option value="Egypt">
+    </option>
+    <option value="El Salvador">
+    </option>
+    <option value="Equatorial Guinea">
+    </option>
+    <option value="Eritrea">
+    </option>
+    <option value="Estonia">
+    </option>
+    <option value="Ethiopia">
+    </option>
+    <option value="Fiji">
+    </option>
+    <option value="Finland">
+    </option>
+    <option value="France">
+    </option>
+    <option value="Gabon">
+    </option>
+    <option value="Gambia">
+    </option>
+    <option value="Georgia">
+    </option>
+    <option value="Germany">
+    </option>
+    <option value="Ghana">
+    </option>
+    <option value="Greece">
+    </option>
+    <option value="Grenada">
+    </option>
+    <option value="Guatemala">
+    </option>
+    <option value="Guinea">
+    </option>
+    <option value="Guinea-Bissau">
+    </option>
+    <option value="Guyana">
+    </option>
+    <option value="Haiti">
+    </option>
+    <option value="Honduras">
+    </option>
+    <option value="Hungary">
+    </option>
+    <option value="Iceland">
+    </option>
+    <option value="India">
+    </option>
+    <option value="Indonesia">
+    </option>
+    <option value="Iran">
+    </option>
+    <option value="Iraq">
+    </option>
+    <option value="Ireland {Republic}">
+    </option>
+    <option value="Israel">
+    </option>
+    <option value="Italy">
+    </option>
+    <option value="Ivory Coast">
+    </option>
+    <option value="Jamaica">
+    </option>
+    <option value="Japan">
+    </option>
+    <option value="Jordan">
+    </option>
+    <option value="Kazakhstan">
+    </option>
+    <option value="Kenya">
+    </option>
+    <option value="Kiribati">
+    </option>
+    <option value="Korea North">
+    </option>
+    <option value="Korea South">
+    </option>
+    <option value="Kuwait">
+    </option>
+    <option value="Kyrgyzstan">
+    </option>
+    <option value="Laos">
+    </option>
+    <option value="Latvia">
+    </option>
+    <option value="Lebanon">
+    </option>
+    <option value="Lesotho">
+    </option>
+    <option value="Liberia">
+    </option>
+    <option value="Libya">
+    </option>
+    <option value="Liechtenstein">
+    </option>
+    <option value="Lithuania">
+    </option>
+    <option value="Luxembourg">
+    </option>
+    <option value="Macedonia">
+    </option>
+    <option value="Madagascar">
+    </option>
+    <option value="Malawi">
+    </option>
+    <option value="Malaysia">
+    </option>
+    <option value="Maldives">
+    </option>
+    <option value="Mali">
+    </option>
+    <option value="Malta">
+    </option>
+    <option value="Marshall Islands">
+    </option>
+    <option value="Mauritania">
+    </option>
+    <option value="Mauritius">
+    </option>
+    <option value="Mexico">
+    </option>
+    <option value="Micronesia">
+    </option>
+    <option value="Moldova">
+    </option>
+    <option value="Monaco">
+    </option>
+    <option value="Mongolia">
+    </option>
+    <option value="Montenegro">
+    </option>
+    <option value="Morocco">
+    </option>
+    <option value="Mozambique">
+    </option>
+    <option value="Myanmar, {Burma}">
+    </option>
+    <option value="Namibia">
+    </option>
+    <option value="Nauru">
+    </option>
+    <option value="Nepal">
+    </option>
+    <option value="Netherlands">
+    </option>
+    <option value="New Zealand">
+    </option>
+    <option value="Nicaragua">
+    </option>
+    <option value="Niger">
+    </option>
+    <option value="Nigeria">
+    </option>
+    <option value="Norway">
+    </option>
+    <option value="Oman">
+    </option>
+    <option value="Pakistan">
+    </option>
+    <option value="Palau">
+    </option>
+    <option value="Panama">
+    </option>
+    <option value="Papua New Guinea">
+    </option>
+    <option value="Paraguay">
+    </option>
+    <option value="Peru">
+    </option>
+    <option value="Philippines">
+    </option>
+    <option value="Poland">
+    </option>
+    <option value="Portugal">
+    </option>
+    <option value="Qatar">
+    </option>
+    <option value="Romania">
+    </option>
+    <option value="Russian Federation">
+    </option>
+    <option value="Rwanda">
+    </option>
+    <option value="St Kitts &amp; Nevis">
+    </option>
+    <option value="St Lucia">
+    </option>
+    <option value="Saint Vincent &amp; the Grenadines">
+    </option>
+    <option value="Samoa">
+    </option>
+    <option value="San Marino">
+    </option>
+    <option value="Sao Tome &amp; Principe">
+    </option>
+    <option value="Saudi Arabia">
+    </option>
+    <option value="Senegal">
+    </option>
+    <option value="Serbia">
+    </option>
+    <option value="Seychelles">
+    </option>
+    <option value="Sierra Leone">
+    </option>
+    <option value="Singapore">
+    </option>
+    <option value="Slovakia">
+    </option>
+    <option value="Slovenia">
+    </option>
+    <option value="Solomon Islands">
+    </option>
+    <option value="Somalia">
+    </option>
+    <option value="South Africa">
+    </option>
+    <option value="Spain">
+    </option>
+    <option value="Sri Lanka">
+    </option>
+    <option value="Sudan">
+    </option>
+    <option value="South Sudan">
+    </option>
+    <option value="Suriname">
+    </option>
+    <option value="Swaziland">
+    </option>
+    <option value="Sweden">
+    </option>
+    <option value="Switzerland">
+    </option>
+    <option value="Syria">
+    </option>
+    <option value="Taiwan">
+    </option>
+    <option value="Tajikistan">
+    </option>
+    <option value="Tanzania">
+    </option>
+    <option value="Thailand">
+    </option>
+    <option value="Togo">
+    </option>
+    <option value="Tonga">
+    </option>
+    <option value="Trinidad &amp; Tobago">
+    </option>
+    <option value="Tunisia">
+    </option>
+    <option value="Turkey">
+    </option>
+    <option value="Turkmenistan">
+    </option>
+    <option value="Tuvalu">
+    </option>
+    <option value="Uganda">
+    </option>
+    <option value="Ukraine">
+    </option>
+    <option value="United Arab Emirates">
+    </option>
+    <option value="United Kingdom">
+    </option>
+    <option value="United States of America">
+    </option>
+    <option value="Uruguay">
+    </option>
+    <option value="Uzbekistan">
+    </option>
+    <option value="Vanuatu">
+    </option>
+    <option value="Vatican City">
+    </option>
+    <option value="Venezuela">
+    </option>
+    <option value="Vietnam">
+    </option>
+    <option value="Yemen">
+    </option>
+    <option value="Zambia">
+    </option>
+    <option value="Zimbabwe">
+    </option>
+</datalist>
+{% endblock body_block %}
+
+{% block script_block %}
+<script>
+    var showItems = document.querySelector('#show-items');
+    var items = document.querySelector('#order-items .items');
+    var showItemsText = document.querySelector('#show-items p');
+    var showPointer = document.querySelector('#show-items span');
+    showItems.addEventListener('click', function(){
+        items.classList.toggle('show');
+        if (items.classList.contains('show')) {
+            showItemsText.innerHTML = 'Hide Items';
+            showPointer.classList.add('show');
+        } else {
+            setTimeout(function(){
+                showItemsText.innerHTML = 'Show Items';
+            }, 400);
+            showPointer.classList.remove('show');
+        }
+
+    });
+</script>
+{% endblock script_block %}

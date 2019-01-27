@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import Product, ProductPhoto, ProductCategory
+from django.shortcuts import redirect
+from .models import Product, ProductPhoto, ProductCategory, Order, OrderItem
+from .forms import AddressForm
 from django_ajax.decorators import ajax
 
 # Create your views here.
@@ -20,7 +22,6 @@ def home(request):
         product['photos'] = [*photos]
         context['products'].append(product)
     return render(request, "main/home.html", context=context)
-
 
 
 class ProductDetailView(DetailView):
@@ -63,6 +64,7 @@ def about(request):
 def contact(request):
     return render(request, "main/contact.html")
 
+
 def cart(request):
     cart_items = list()
     num_items = 0
@@ -76,6 +78,43 @@ def cart(request):
         cart_items.append({'product':product, 'quantity':qty, 'price':price, 'photo':photo})
         total += price
     return render(request, "main/cart.html", context={'cart':cart_items, 'total':total, 'num_items':num_items})
+
+
+def make_order(request):
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.save()
+            order = Order.objects.create(buyer=address)
+            for item in request.session['cart']:
+                product = Product.objects.get(id=item['id'])
+                quantity = item['quantity']
+                OrderItem.objects.create(order=order, item=product, quantity=quantity, cost=product.price*quantity)
+            request.session['cart'] = None
+            request.session.save()
+            return redirect('view-order', order_id=order.order_id)
+        else:
+            return render(request, "main/make-order.html", context={'cart':cart_items, 'total':total, 'num_items':num_items, 'errors':True})
+    
+    else:
+        cart_items = list()
+        num_items = 0
+        total = 0
+        for i in request.session['cart']:
+            product = Product.objects.get(id=i['id'])
+            photo = ProductPhoto.objects.filter(product=product)[0]
+            qty = i['quantity']
+            num_items += qty
+            price = product.price * qty
+            cart_items.append({'product':product, 'quantity':qty, 'price':price, 'photo':photo})
+            total += price
+        return render(request, "main/make-order.html", context={'cart':cart_items, 'total':total, 'num_items':num_items})
+
+
+def view_order(request, order_id):
+    order = Order.objects.get(order_id=order_id)
+    #TODO: show order details
+    return render(request, "main/view-order.html", context={'order':order})
 
 @ajax
 def categories(request):

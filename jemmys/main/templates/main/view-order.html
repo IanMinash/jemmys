@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title_block %}
+  Order #{{ order.order_id }} | Jemmy's Collection
+{% endblock title_block %}
+
+{% block descr_block %}
+  Order #{{ order.order_id }} has {{ order.items|length }} items. The total cost is {{ order.total }}.
+{% endblock descr_block %}
+
+{% block body_block %}
+  
+{% endblock body_block %}
