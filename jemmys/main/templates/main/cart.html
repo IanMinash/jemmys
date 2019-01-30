@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title_block %}
     Your Cart({{ num_items }}) | Jemy's Collection
 {% endblock title_block %}
 
 {% block body_block %}
-<div class="grid cart" style="padding: 0 5%;">
+{% if num_items > 0 %}
+<div class="grid cart" style="margin: 0 5%;">
     <div class="items">
         <p class="title">ITEMS IN YOUR CART</p>
         <hr>
@@ -25,8 +27,6 @@
                     <p class="m-0">{{ item.price }}</p>
                 </div>
             </div>
-        {% empty %}
-        
         {% endfor %}
             
     </div>
@@ -57,9 +57,16 @@
             </tbody>
         </table>
         <a href="{% url 'make-order' %}" class="act-themed">GO TO CHECKOUT</a> 
-    </div>
-    
+    </div>  
 </div>
+{% else %}
+<div style="margin: 0 5%;">
+    <div class="card flex" style="align-items:center; flex-flow:column;">
+        <img src="{% static 'images/ppbag.png' %}" alt="No items" style="max-height: 20em; max-width: 20em;">
+        <p class="text-centered">There's nothing in the cart. </p>
+    </div>
+</div>
+{% endif %}
 {% endblock body_block %}
 
 {% block script_block %}

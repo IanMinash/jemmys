@@ -5,7 +5,7 @@ from .views import home, about, contact, ProductDetailView, categories, cart_man
 
 urlpatterns = [
     path('', home, name='home'),
-    path('view/<slug:slug>', ProductDetailView.as_view(), name='view_product'),
+    path('view/<slug:slug>', ProductDetailView.as_view(), name='view-product'),
     path('about', about, name='about'),
     path('contact', contact, name='contact'),
     path('cats', categories, name='cats'),

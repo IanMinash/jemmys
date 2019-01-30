@@ -139,6 +139,12 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.order_id = id_generator(self)
+            #TODO: calculate shipping cost
+        else:
+            self.total = 0
+            for item in self.items.all():
+                self.total += item.cost
+            self.total += self.shipping
         super(Order, self).save(*args, **kwargs)
 
 
@@ -167,8 +173,6 @@ class OrderItem(models.Model):
 
 
 @receiver(post_save, sender=OrderItem)
-def minus_usage(sender, instance, **kwargs):
-    cost = instance.cost
+def order_total(sender, instance, **kwargs):
     order = instance.order
-    order.total = order.total + cost
     order.save()
