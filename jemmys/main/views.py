@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
 from .models import Product, ProductPhoto, ProductCategory, Order, OrderItem
 from .forms import AddressForm, UserIssueForm
@@ -57,8 +58,18 @@ def variants(request):
             photo_urls.append(str(photo.photo.url))
         return {'quantity': product.quantity, 'photos':photo_urls}
 
-def about(request):
-    return render(request, "main/about.html")
+def order_search(request):
+    context = dict()
+    if request.method == 'POST':
+        order_id = request.POST.get('ordersearch', None)
+        order_id = order_id.upper()
+        if order_id:
+            try:
+                order = Order.objects.get(order_id=order_id)
+                return redirect('view-order', order_id=order.order_id)
+            except ObjectDoesNotExist:
+                context['not_found'] = True
+    return render(request, "main/order-search.html", context=context)
 
 
 def contact(request):

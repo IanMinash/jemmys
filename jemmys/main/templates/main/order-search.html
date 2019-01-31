@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block title_block %}
+    View your Order Status | Jemmy's Collection
+{% endblock title_block %}
+    
+
+{% block descr_block %}
+    View your order details. Enter the order number to continue.
+{% endblock descr_block %}
+    
+
+{% block body_block %}
+    <div class="flex" style="justify-content:center; align-content:center; margin: 0 5%; min-height: 23em;">
+        <form action="" method="post">
+            <div class="d-block mb-1">
+                <label for="ordersearchfield" class="mb-d5 d-i-block">Enter your order ID</label>
+                <input type="search" name="ordersearch" id="ordersearchfield" required>
+                {% if not_found %}
+                    <small style="color:#dc3545;">An order with the given order ID was not found. Please make sure you entered it correctly.</small>
+                {% endif %}
+            </div>
+            <div class="d-block mb-1">
+                {% csrf_token %}
+                <input type="submit" value="VIEW STATUS" class="act-themed" style="padding:0.5em;">
+            </div>
+        </form>
+    </div>
+{% endblock body_block %}
+    
