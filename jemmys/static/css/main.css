@@ -148,7 +148,6 @@ select {
 }
 
 .product {
-  min-width: 18rem;
   z-index: 10;
   box-shadow: 0 0 1em rgb(128, 128, 128);
   margin: auto;
@@ -374,6 +373,22 @@ a:hover {
   display: inline-block;
 }
 
+#side-nav .cat {
+  padding-left: 0.5em;
+}
+
+#side-nav .cat span {
+  display: block;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#side-nav .cat span:hover {
+  color: #14c967;
+}
+
 .site p {
   margin: 0.5em 0;
 }
@@ -413,7 +428,7 @@ a:hover {
 
 .grid.view-order {
   grid-template-columns: auto;
-  grid-gap: 2em;
+  grid-column-gap: 2em;
 }
 
 .make-order form > .grid {
@@ -572,6 +587,7 @@ a:hover {
 
   #main {
     padding-top: 6.2em;
+    min-height: 63vh;
   }
 
   .grid.prod-info {

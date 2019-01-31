@@ -12,7 +12,7 @@
 <div class="grid make-order" style="margin: 1em 5%;">
     <div class="card">
         {% if errors %}
-          <small style="color:#dc3545;"></small>
+          <small style="color:#dc3545;">Make sure you've entered the details correctly.</small>
         {% endif %}
         <form action="{% url 'make-order' %}" id="customer-details" method="POST"> 
             <div class="d-block mb-1">

@@ -106,7 +106,9 @@
             </button>
             <div class="flex" style="flex-direction: column; line-height: 3; margin: 2em;">
                 <a href="{% url 'home' %}">HOME</a>
-                <a href="">ITEMS</a>
+                <div class="cat">
+
+                </div>
                 <a href="{% url 'search-order' %}">ORDER STATUS</a>
                 <a href="{% url 'contact' %}">CONTACT US</a>
                 <a href="">SHIPPING</a>
@@ -225,16 +227,21 @@
         crossorigin="anonymous"></script> 
     <script src="{% static 'js/main.js' %}"></script>
     <script>
-        var categoryContainer = document.querySelector('.cat');
+        var categoryContainer = document.querySelectorAll('.cat');
         var cartLink = document.querySelector('#show-cart');
         $.get("{% url 'cats' %}", function (data) {
             for (const category in data.content.categories) {
-                categoryContainer.innerHTML += `<span>${data.content.categories[category]}</span>`
+                categoryContainer.forEach(element => {
+                    element.innerHTML += `<span>${data.content.categories[category]}</span>`
+                });
             }
-            for (let index = 0; index < categoryContainer.childElementCount; index++) {
-                categoryContainer.children[index].addEventListener("click", categoryRequest);
-            }
+            categoryContainer.forEach(element => {
+                for (let index = 0; index < element.childElementCount; index++) {
+                    element.children[index].addEventListener("click", categoryRequest);
+                }
+            });
         });
+
         function cartItems() {
             $.get("{% url 'cart-manager' %}", function (data) {
                 if (cartLink.querySelector('span')) {
