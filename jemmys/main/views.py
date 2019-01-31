@@ -122,8 +122,11 @@ def make_order(request):
 
 def view_order(request, order_id):
     order = Order.objects.get(order_id=order_id)
-    #TODO: show order details
-    return render(request, "main/view-order.html", context={'order':order})
+    items = order.items.all()
+    item_total = 0
+    for item in items:
+        item_total += item.cost
+    return render(request, "main/view-order.html", context={'order':order, 'items':items, 'item_total':item_total})
 
 @ajax
 def categories(request):

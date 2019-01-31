@@ -19,6 +19,9 @@
     ">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}" /> 
+    {% block style_block %}
+      
+    {% endblock style_block %}
 </head>
 <body>
     <div id="navbar">
@@ -234,12 +237,14 @@
         });
         function cartItems() {
             $.get("{% url 'cart-manager' %}", function (data) {
-                if (data.content.num_items > 0) {
-                    if (cartLink.querySelector('span')) {
+                if (cartLink.querySelector('span')) {
+                    if (data.content.num_items > 0) {
                         cartLink.querySelector('span').outerHTML = `<span class="cart-len">${data.content.num_items}</span>`
                     } else {
-                        cartLink.innerHTML += `<span class="cart-len">${data.content.num_items}</span>`
+                        cartLink.querySelector('span').remove();
                     }
+                } else {
+                    data.content.num_items ? cartLink.innerHTML += `<span class="cart-len">${data.content.num_items}</span>` : null;
                 }
             });
         }
