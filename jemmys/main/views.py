@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.shortcuts import redirect
 from .models import Product, ProductPhoto, ProductCategory, Order, OrderItem
-from .forms import AddressForm
+from .forms import AddressForm, UserIssueForm
 from django_ajax.decorators import ajax
 
 # Create your views here.
@@ -62,7 +62,16 @@ def about(request):
 
 
 def contact(request):
-    return render(request, "main/contact.html")
+    success = errors = False
+    if request.method == 'POST':
+        success = False
+        form = UserIssueForm(request.POST)
+        if form.is_valid():
+            form.save()
+            success = True
+        else:
+            errors = True
+    return render(request, "main/contact.html", {'success':success, 'errors':errors})
 
 
 def cart(request):

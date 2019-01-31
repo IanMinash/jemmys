@@ -36,6 +36,7 @@ class Product(models.Model):
         validators=[MinValueValidator(0)], default=0)
     variant_of = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name='variants', blank=True, null=True)
+    
     slug = models.SlugField(blank=True)
 
     class Meta:
@@ -176,3 +177,22 @@ class OrderItem(models.Model):
 def order_total(sender, instance, **kwargs):
     order = instance.order
     order.save()
+
+
+class UserIssue(models.Model):
+    """Model definition for a User Issue, request or suggestion."""
+
+    name =models.CharField(max_length=50)
+    email = models.EmailField()
+    issue = models.TextField(max_length=1000)
+    created = models.DateField(auto_now_add=True)
+
+    class Meta:
+        """Meta definition for a User Issue."""
+
+        verbose_name = 'User Issue'
+        verbose_name_plural = 'User Issues'
+
+    def __str__(self):
+        """Unicode representation of a User Issue."""
+        return f'{self.email} - {self.created}'
