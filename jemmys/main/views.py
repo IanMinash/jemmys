@@ -85,6 +85,9 @@ def contact(request):
     return render(request, "main/contact.html", {'success':success, 'errors':errors})
 
 
+def shipping(request):
+    return render(request, "main/shipping.html")
+
 def cart(request):
     cart_items = list()
     num_items = 0
