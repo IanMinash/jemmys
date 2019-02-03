@@ -47,7 +47,7 @@ body {
 }
 
 #navbar button,
-#side-nav button {
+#dismiss-nav, #dismiss-attr {
   background: none;
   border: 0;
   transition: all 0.3s ease-in-out;
@@ -112,7 +112,7 @@ a:hover {
   background-color: white;
 }
 
-#side-nav-bg {
+#side-nav-bg, #attributions {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8);
@@ -123,6 +123,15 @@ a:hover {
 
 #side-nav-bg.dismissed {
   transform: translateX(-100%);
+  background: none;
+}
+
+#attributions {
+  padding: 1em 5%; 
+}
+
+#attributions.dismissed {
+  transform: translateY(-100%);
   background: none;
 }
 
@@ -298,12 +307,20 @@ button.act-themed {
   align-content: center;
 }
 
+.flex-x-center {
+  justify-content: center;
+}
+
 .grid {
   display: grid;
 }
 
 .m-0 {
   margin: 0;
+}
+
+.m-1 {
+  margin: 1em;
 }
 
 .mb-d5 {
