@@ -1,7 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,600,800");
 
 :root {
   font-family: "Montserrat", sans-serif;
+  font-weight: 300;
 }
 
 body {
@@ -53,8 +54,8 @@ body {
 }
 
 #navbar > .cat span {
-  font-size: 0.685em;
-  font-weight: bold;
+  font-size: 0.7em;
+  font-weight: 600;
   text-transform: uppercase;
   color: rgb(46, 46, 46);
   display: block;
@@ -126,7 +127,7 @@ a:hover {
 }
 
 .title {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 tr.total {
@@ -228,7 +229,7 @@ table td.l {
 
 .prod-details .title {
   margin: 0;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .prod-details p {
@@ -240,10 +241,10 @@ form input, form textarea {
   width: 100%;
 }
 
-input, textarea {
+input, textarea  {
   border-radius: 0.25em;
   border: 1px solid rgb(128, 128, 128);
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat";
   padding: 0.5em;
   transition: all 0.3s ease-in-out;
 }
@@ -271,7 +272,7 @@ button.act-themed {
   display: block;
   margin-top: 0.35rem;
   margin-bottom: 0.175rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 1px;
   border-radius: 0.25rem;
   transition: all 0.3s ease-in;
@@ -292,6 +293,11 @@ button.act-themed {
   flex-wrap: wrap;
 }
 
+.flex-xy-center {
+  justify-content: center;
+  align-content: center;
+}
+
 .grid {
   display: grid;
 }
@@ -310,6 +316,10 @@ button.act-themed {
 
 .p-0 {
   padding: 0;
+}
+
+.p-d5 {
+  padding: 0.5em;
 }
 
 #curr-photo {
@@ -351,7 +361,7 @@ hr {
 a {
   text-decoration: none;
   color: rgb(46, 46, 46);
-  font-weight: bold;
+  font-weight: 600;
   transition: all 0.3s ease-in-out;
 }
 
@@ -380,7 +390,7 @@ a:hover {
 #side-nav .cat span {
   display: block;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
