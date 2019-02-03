@@ -71,9 +71,9 @@
                 {% if variants %}
                 <span>Option: </span>
                 <select name="variant" id="variant" onchange="variantChange(event)">
-                    <option value="{{ product.id }}">--------------</option>
+                    <option value="{{ product.id }}">{{ product.variant_info }}</option>
                     {% for variant in variants %}
-                        <option value="{{ variant.id }}">{{ variant.name }}</option>
+                        <option value="{{ variant.id }}">{{ variant.variant_info }}</option>
                     {% endfor %}
                         
                 </select>

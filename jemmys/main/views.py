@@ -30,6 +30,12 @@ class ProductDetailView(DetailView):
     template_name = "main/product.html"
     context_object_name = "product"
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.variant_of:
+            return redirect('view-product', slug=self.object.variant_of.slug)
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         product = self.get_object()

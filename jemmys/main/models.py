@@ -28,7 +28,7 @@ class Product(models.Model):
     """Model definition for a Product."""
 
     name = models.CharField(max_length=50)
-    description = models.TextField(max_length=1500)
+    description = models.TextField(max_length=1500, blank=True, null=True)
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='KES')
     category = models.ForeignKey(
         ProductCategory, on_delete=models.CASCADE, related_name='products')
@@ -36,7 +36,7 @@ class Product(models.Model):
         validators=[MinValueValidator(0)], default=0)
     variant_of = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name='variants', blank=True, null=True)
-    
+    variant_info = models.CharField(max_length=50, blank=True, null=True)    
     slug = models.SlugField(blank=True)
 
     class Meta:
