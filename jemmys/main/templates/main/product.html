@@ -14,7 +14,9 @@
 </div>
 <div class="grid prod-info">
     <div class="flex images">
-        <img src="{{ photos.0.photo.url }}" alt="" id="curr-photo">
+        <div>
+            <img src="" alt="" id="curr-photo">
+        </div>
         <div class="flex">
             {% if photos %}
                 {% for photo in photos %}
@@ -150,6 +152,11 @@
 {% block script_block %}
 <script>
     const tickSvg = document.querySelector('.overlay.flex').innerHTML
+
+    window.onload = function() {
+        var current = document.querySelector('#curr-photo');
+        current.setAttribute('src', document.querySelector('img.for-select.selected').getAttribute('src'));
+    }
 
     function variantChange(event) {
         var variantSelector = document.querySelector('#variant');

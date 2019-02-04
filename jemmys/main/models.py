@@ -47,7 +47,11 @@ class Product(models.Model):
 
     def __str__(self):
         """Unicode representation of Product."""
-        return f"{self.name} - {self.price}"
+        if self.variant_info:
+            return f"{self.name} - {self.variant_info}"
+        else:
+            return f"{self.name} - {self.price}"
+            
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -69,7 +73,11 @@ class ProductPhoto(models.Model):
 
     def __str__(self):
         """Unicode representation of ProductPhotos."""
-        return f"{self.product.name}'s photo"
+        p = self.product
+        if p.variant_info:
+            return f"{p.name} - {p.variant_info}'s photo"
+        else:
+            return f"{p.name}'s photo"
 
 
 class BuyerAddress(models.Model):

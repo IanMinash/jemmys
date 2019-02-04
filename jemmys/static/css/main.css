@@ -258,9 +258,13 @@ input, textarea  {
   transition: all 0.3s ease-in-out;
 }
 
-input:focus, textarea:focus {
-  border: 1px solid #14c967;
-  box-shadow: 0 0 0.25em #14c967;
+select {
+  font-family: "Montserrat";
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #14c967;
+  box-shadow: 0 0 0.25rem #14c967;
 }
 
 button {
@@ -341,6 +345,7 @@ button.act-themed {
 
 #curr-photo {
   width: 100%;
+  height: auto;
 }
 
 .for-select {
@@ -593,6 +598,11 @@ a:hover {
 
   .cart .grid.item div:last-child {
     justify-self: right;
+  }
+
+  .grid.prod-info {
+    grid-template-columns: 55% auto;
+    grid-gap: 1em;
   }
 }
 
