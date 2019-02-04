@@ -109,7 +109,7 @@
 {% if others %}
 <section style="padding:1em 5%">
     <p class="title m-0 mb-1">Other {{ product.category }}</p>
-    <div>
+    <div id="others" class="flex p-y-1">
         {% for product in others %}
             <div class="product">
                 <div class="prod-photo">
@@ -194,7 +194,6 @@
                         sel.classList.add('d-none');
                         forSel.appendChild(sel);
                     }
-                    console.log(forSel);
                     imageContainer.appendChild(forSel);
                 }
             }

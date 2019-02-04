@@ -47,7 +47,8 @@ body {
 }
 
 #navbar button,
-#dismiss-nav, #dismiss-attr {
+#dismiss-nav,
+#dismiss-attr {
   background: none;
   border: 0;
   transition: all 0.3s ease-in-out;
@@ -66,6 +67,11 @@ body {
 
 #navbar > .cat span:hover {
   color: #14c967;
+}
+
+#others {
+  overflow-x: auto;
+  flex-flow: row;
 }
 
 button:hover,
@@ -112,7 +118,8 @@ a:hover {
   background-color: white;
 }
 
-#side-nav-bg, #attributions {
+#side-nav-bg,
+#attributions {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8);
@@ -127,7 +134,11 @@ a:hover {
 }
 
 #attributions {
-  padding: 1em 5%; 
+  padding: 1em 5%;
+}
+
+#attributions .card {
+  line-height: 1.2;
 }
 
 #attributions.dismissed {
@@ -163,6 +174,11 @@ select {
   margin: auto;
   border-radius: 0.5em;
   transition: all 0.3s ease-in-out;
+}
+
+#others .product {
+  min-width: 16em;
+  margin: auto 1em;
 }
 
 .prod-photo {
@@ -246,11 +262,13 @@ table td.l {
   margin-bottom: 0.125rem;
 }
 
-form input, form textarea {
+form input,
+form textarea {
   width: 100%;
 }
 
-input, textarea  {
+input,
+textarea {
   border-radius: 0.25em;
   border: 1px solid rgb(128, 128, 128);
   font-family: "Montserrat";
@@ -262,7 +280,9 @@ select {
   font-family: "Montserrat";
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   border-color: #14c967;
   box-shadow: 0 0 0.25rem #14c967;
 }
@@ -341,6 +361,14 @@ button.act-themed {
 
 .p-d5 {
   padding: 0.5em;
+}
+
+.p-y-1 {
+  padding: 1em 0;
+}
+
+.p-1 {
+  padding: 1em;
 }
 
 #curr-photo {
@@ -496,11 +524,13 @@ a:hover {
   width: 100%;
 }
 
-.make-order .grid.item, .view-order .grid.item {
+.make-order .grid.item,
+.view-order .grid.item {
   grid-template-columns: 5em auto;
 }
 
-.make-order .grid.item, .view-order .grid.item > div:last-child {
+.make-order .grid.item,
+.view-order .grid.item > div:last-child {
   font-size: 1em;
 }
 
@@ -522,7 +552,8 @@ a:hover {
   max-height: 300vh;
 }
 
-#show-items, #order-status {
+#show-items,
+#order-status {
   background-color: rgb(128, 128, 128);
   margin: 1em -1em;
   padding: 1em;
@@ -555,8 +586,8 @@ a:hover {
   margin: 0.5em 0;
 }
 
-.view-order .grid.item>:last-child {
-  display: none ;
+.view-order .grid.item > :last-child {
+  display: none;
 }
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
@@ -577,11 +608,11 @@ a:hover {
     grid-template-columns: 5em auto 20%;
   }
 
-  .view-order .grid.item>:last-child {
+  .view-order .grid.item > :last-child {
     display: block;
   }
 
-  .view-order .grid.item>div :last-child {
+  .view-order .grid.item > div :last-child {
     display: none;
   }
 }
@@ -640,7 +671,7 @@ a:hover {
   #show-items {
     display: none;
   }
-  
+
   #order-items .items {
     max-height: 300vh;
   }
@@ -659,7 +690,6 @@ a:hover {
 
   .grid.view-order {
     grid-template-columns: auto 30%;
-    
   }
 
   .grid.cart > div:last-child {
@@ -668,7 +698,6 @@ a:hover {
     margin: 0 auto;
     margin-top: 4em;
   }
-
 }
 
 /* Extra large devices (large desktops, 1200px and up) */

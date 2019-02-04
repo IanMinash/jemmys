@@ -41,7 +41,7 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         context['photos'] = ProductPhoto.objects.filter(product=product)
         # Other products of the same category
-        others = Product.objects.exclude(id__exact=context['product'].id).filter(category__exact=context['product'].category, variant_of=None)
+        others = Product.objects.exclude(id__exact=context['product'].id).filter(category__exact=context['product'].category, variant_of=None)[:3]
         context['others'] = list()
         context['variants'] = Product.objects.filter(variant_of=product)
         context['quantity'] = range(1,product.quantity+1)
