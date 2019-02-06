@@ -13,9 +13,11 @@ document.querySelector('#dismiss-attr').addEventListener("click", toggleSide);
 
 function toggleImage() {
   images = this.querySelectorAll("img");
-  images.forEach(function(image) {
-    image.classList.toggle("d-none");
-  });
+  if (images.length > 1) {
+    images.forEach(function(image) {
+      image.classList.toggle("d-none");
+    });
+  }
 }
 
 function oneToOne() {
