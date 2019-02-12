@@ -1,0 +1,22 @@
+{
+  "name": "jemmys",
+  "version": "1.0.0",
+  "description": "Jemmy's Collection site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IanMinash/jemmys.git"
+  },
+  "author": "Ian Minara",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IanMinash/jemmys/issues"
+  },
+  "homepage": "https://github.com/IanMinash/jemmys#readme",
+  "devDependencies": {
+    "cssnano": "^4.1.9"
+  }
+}
