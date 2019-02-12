@@ -36,7 +36,7 @@ class Product(models.Model):
         validators=[MinValueValidator(0)], default=0)
     variant_of = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name='variants', blank=True, null=True)
-    variant_info = models.CharField(max_length=50, blank=True, null=True)    
+    variant_info = models.CharField(max_length=50, blank=True, null=True)
     slug = models.SlugField(blank=True)
 
     class Meta:
@@ -51,7 +51,6 @@ class Product(models.Model):
             return f"{self.name} - {self.variant_info}"
         else:
             return f"{self.name} - {self.price}"
-            
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -128,8 +127,10 @@ class Order(models.Model):
     )
 
     order_id = models.CharField(max_length=7, unique=True, blank=True)
-    total = MoneyField(max_digits=14, decimal_places=2, default_currency='KES', default=0)
-    shipping = MoneyField(max_digits=14, decimal_places=2, default_currency='KES', default=200)
+    total = MoneyField(max_digits=14, decimal_places=2,
+                       default_currency='KES', default=0)
+    shipping = MoneyField(max_digits=14, decimal_places=2,
+                          default_currency='KES', default=200)
     status = models.CharField(max_length=1, choices=STATUSES, default='P')
     buyer = models.ForeignKey(
         BuyerAddress, on_delete=models.CASCADE, related_name='orders')
@@ -148,7 +149,7 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.order_id = id_generator(self)
-            #TODO: calculate shipping cost
+            # TODO: calculate shipping cost
         else:
             self.total = 0
             for item in self.items.all():
@@ -156,15 +157,17 @@ class Order(models.Model):
             self.total += self.shipping
         super(Order, self).save(*args, **kwargs)
 
+# TODO: minus product quantity when order is fulfilled
 
 class OrderItem(models.Model):
     """An item in an order."""
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name='items')
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(validators=[MinValueValidator(0)])
-    cost = MoneyField(max_digits=14, decimal_places=2, default_currency='KES', default=0)
-     
+    cost = MoneyField(max_digits=14, decimal_places=2,
+                      default_currency='KES', default=0)
 
     class Meta:
         """Meta definition for Order Item."""
@@ -178,7 +181,7 @@ class OrderItem(models.Model):
 
     def save(self, *args, **kwargs):
         self.cost = self.item.price * self.quantity
-        super(OrderItem, self).save(*args, **kwargs)    
+        super(OrderItem, self).save(*args, **kwargs)
 
 
 @receiver(post_save, sender=OrderItem)
@@ -190,7 +193,7 @@ def order_total(sender, instance, **kwargs):
 class UserIssue(models.Model):
     """Model definition for a User Issue, request or suggestion."""
 
-    name =models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     email = models.EmailField()
     issue = models.TextField(max_length=1000)
     created = models.DateField(auto_now_add=True)

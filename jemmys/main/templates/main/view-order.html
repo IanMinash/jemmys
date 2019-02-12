@@ -83,7 +83,9 @@
     <div class="s-info">
       <p class="m-0">{{ order.buyer.name }}</p>
       <p class="m-0">{{ order.buyer.street }}</p>
-      <p class="m-0">{{ order.buyer.house }}</p>
+      {% if order.buyer.house %}
+        <p class="m-0">{{ order.buyer.house }}</p> 
+      {% endif %}
       <p class="m-0">{{ order.buyer.city }}</p>
       <p class="m-0">{{ order.buyer.country }}</p>
     </div>
