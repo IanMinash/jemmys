@@ -106,6 +106,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email
+DEFAULT_FROM_EMAIL = os.environ.get('SERVER_EMAIL')
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'mail')
+
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_USE_TLS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

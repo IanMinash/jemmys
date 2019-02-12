@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
+from .mail import send_an_email
 from .models import Product, ProductPhoto, ProductCategory, Order, OrderItem
 from .forms import AddressForm, UserIssueForm
 from django_ajax.decorators import ajax
+import threading
 
 # Create your views here.
 
@@ -121,6 +123,14 @@ def make_order(request):
                 OrderItem.objects.create(order=order, item=product, quantity=quantity, cost=product.price*quantity)
             request.session['cart'] = None
             request.session.save()
+            client_thread = threading.Thread(target=send_an_email, args=(f"Your Order #{order.order_id} has been placed!", order.buyer.email, {
+                      'order': order}, "email/toclientcreate.html"))
+            managers_thread = threading.Thread(target=send_an_email, args=(f"A new Order #{order.order_id} has been placed!", order.buyer.email, {
+                        'order': order}, "email/tomanagercreate.html"))
+            client_thread.start()
+            managers_thread.start()
+            client_thread.join()
+            managers_thread.join()
             return redirect('view-order', order_id=order.order_id)
         else:
             return render(request, "main/make-order.html", context={'cart':cart_items, 'total':total, 'num_items':num_items, 'errors':True})
