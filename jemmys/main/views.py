@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
+from djmoney.money import Money
 from .mail import send_an_email
 from .models import Product, ProductPhoto, ProductCategory, Order, OrderItem
 from .forms import AddressForm, UserIssueForm
@@ -10,18 +11,20 @@ import threading
 
 # Create your views here.
 
+
 def home(request):
     context = dict()
     context['products'] = list()
     if request.GET.get('category'):
-        all_products = Product.objects.filter(category__category=request.GET['category'], variant_of=None)
+        all_products = Product.objects.filter(
+            category__category=request.GET['category'], variant_of=None)
     elif request.GET.get('name'):
         all_products = Product.objects.filter(name=request.GET['name'])
     else:
         all_products = Product.objects.filter(variant_of=None)
     for prod in all_products:
         photos = ProductPhoto.objects.filter(product=prod)[:2]
-        product = {'details':prod, 'photos':list()}
+        product = {'details': prod, 'photos': list()}
         product['photos'] = [*photos]
         context['products'].append(product)
     return render(request, "main/home.html", context=context)
@@ -43,13 +46,15 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         context['photos'] = ProductPhoto.objects.filter(product=product)
         # Other products of the same category
-        others = Product.objects.exclude(id__exact=context['product'].id).filter(category__exact=context['product'].category, variant_of=None)[:3]
+        others = Product.objects.exclude(id__exact=context['product'].id).filter(
+            category__exact=context['product'].category, variant_of=None)[:3]
         context['others'] = list()
-        context['variants'] = Product.objects.filter(variant_of=product).order_by('variant_info')
-        context['quantity'] = range(1,product.quantity+1)
+        context['variants'] = Product.objects.filter(
+            variant_of=product).order_by('variant_info')
+        context['quantity'] = range(1, product.quantity+1)
         for other in others:
             photos = ProductPhoto.objects.filter(product=other)[:2]
-            product = {'details':other, 'photos':list()}
+            product = {'details': other, 'photos': list()}
             product['photos'] = [*photos]
             context['others'].append(product)
         return context
@@ -64,7 +69,8 @@ def variants(request):
         photos = ProductPhoto.objects.filter(product=product)
         for photo in photos:
             photo_urls.append(str(photo.photo.url))
-        return {'quantity': product.quantity, 'photos':photo_urls}
+        return {'quantity': product.quantity, 'photos': photo_urls}
+
 
 def order_search(request):
     context = dict()
@@ -90,25 +96,39 @@ def contact(request):
             success = True
         else:
             errors = True
-    return render(request, "main/contact.html", {'success':success, 'errors':errors})
+    return render(request, "main/contact.html", {'success': success, 'errors': errors})
 
 
 def shipping(request):
     return render(request, "main/shipping.html")
 
+
 def cart(request):
     cart_items = list()
     num_items = 0
-    total = 0
+    sub_total = total = 0
+    shipping = None
     for i in request.session['cart']:
         product = Product.objects.get(id=i['id'])
         photo = ProductPhoto.objects.filter(product=product)[0]
         qty = i['quantity']
         num_items += qty
         price = product.price * qty
-        cart_items.append({'product':product, 'quantity':qty, 'price':price, 'photo':photo})
-        total += price
-    return render(request, "main/cart.html", context={'cart':cart_items, 'total':total, 'num_items':num_items})
+        cart_items.append(
+            {'product': product, 'quantity': qty, 'price': price, 'photo': photo})
+        sub_total += price
+    total += sub_total
+    if num_items > 0:
+        try:
+            city = request.session['city']
+            if city == "Nairobi":
+                shipping = Money(200, 'KES')
+                total += shipping
+            else:
+                shipping = 'ASK'
+        except:
+            pass
+    return render(request, "main/cart.html", context={'cart':cart_items, 'shipping':shipping, 'sub_total':sub_total, 'total':total, 'num_items':num_items})
 
 
 def make_order(request):
@@ -136,18 +156,34 @@ def make_order(request):
             return render(request, "main/make-order.html", context={'cart':cart_items, 'total':total, 'num_items':num_items, 'errors':True})
     
     else:
-        cart_items = list()
-        num_items = 0
-        total = 0
-        for i in request.session['cart']:
-            product = Product.objects.get(id=i['id'])
-            photo = ProductPhoto.objects.filter(product=product)[0]
-            qty = i['quantity']
-            num_items += qty
-            price = product.price * qty
-            cart_items.append({'product':product, 'quantity':qty, 'price':price, 'photo':photo})
-            total += price
-        return render(request, "main/make-order.html", context={'cart':cart_items, 'total':total, 'num_items':num_items})
+        if request.session['cart']:
+            cart_items = list()
+            num_items = 0
+            sub_total = total = 0
+            shipping = None
+            for i in request.session['cart']:
+                product = Product.objects.get(id=i['id'])
+                photo = ProductPhoto.objects.filter(product=product)[0]
+                qty = i['quantity']
+                num_items += qty
+                price = product.price * qty
+                cart_items.append(
+                    {'product': product, 'quantity': qty, 'price': price, 'photo': photo})
+                sub_total += price
+            total += sub_total
+            if num_items > 0:
+                try:
+                    city = request.session['city']
+                    if city == "Nairobi":
+                        shipping = Money(200, 'KES')
+                        total += shipping
+                    else:
+                        shipping = 'ASK'
+                except:
+                    pass
+            return render(request, "main/make-order.html", context={'cart':cart_items, 'shipping':shipping, 'sub_total':sub_total, 'total':total, 'num_items':num_items})
+        else:
+            return redirect('home')
 
 
 def view_order(request, order_id):
@@ -237,3 +273,13 @@ def cart_manager(request):
         for item in request.session['cart']:
                 num += item['quantity']
         return {'num_items':num}
+
+
+@ajax
+def set_session(request):
+    if request.method == 'POST':
+        items = request.POST.items()
+        for i in items:
+            request.session[i[0]] = i[1]
+            request.session.save()
+        return {'text':'ADDED!'}

@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import home, contact, ProductDetailView, categories, cart_manager, cart, variants, make_order, view_order, order_search, shipping
+from .views import home, contact, ProductDetailView, categories, cart_manager, cart, variants, make_order, view_order, order_search, shipping, set_session
 
 urlpatterns = [
     path('', home, name='home'),
@@ -17,4 +17,5 @@ urlpatterns = [
     ])),
     path('cart-manager', cart_manager, name='cart-manager'),
     path('variant-info', variants, name='variant-info'),
+    path('set-session', set_session, name='set-session'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
