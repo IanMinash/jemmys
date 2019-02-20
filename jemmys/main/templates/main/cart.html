@@ -39,7 +39,7 @@
                     <td id="items-total" class="r">{{ sub_total }}</td>
                 </tr>
                 <tr>
-                    {% if shipping == 'Nairobi' %}
+                    {% if shipping != 'ASK' %}
                         <td class="l">Shipping</td>
                         <td class="r">{{ shipping }}</td>                    
                     {% else %}

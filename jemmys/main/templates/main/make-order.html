@@ -96,7 +96,11 @@
                 <p class="m-0 title" style="font-size:1.2em">Shipping</p>
             </div>
             <div>
-                <p class="m-0">{{ shipping }}</p>
+                {% if shipping != 'ASK' %}
+                    <p class="m-0">{{ shipping }}</p>
+                {% else %}
+                    <p class="m-0">-</p> 
+                {% endif %}
             </div>
             <div>
                 <p class="m-0 title" style="font-size:1.2em">Total</p>
