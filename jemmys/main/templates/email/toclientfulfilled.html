@@ -1,0 +1,161 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Your Order {{ order.order_id }} has been delivered! 🎉</title>
+    <style type="text/css">
+      @media screen {
+        /* latin-ext */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 300;
+          src: local("Montserrat Light"), local("Montserrat-Light"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTURjIg1_i6t8kCHKm45_cJD3gfD_u50.woff2)
+              format("woff2");
+          unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+            U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 300;
+          src: local("Montserrat Light"), local("Montserrat-Light"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTURjIg1_i6t8kCHKm45_cJD3gnD_g.woff2)
+              format("woff2");
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+            U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+            U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 400;
+          src: local("Montserrat Regular"), local("Montserrat-Regular"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459Wdhyzbi.woff2)
+              format("woff2");
+          unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+            U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 400;
+          src: local("Montserrat Regular"), local("Montserrat-Regular"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2)
+              format("woff2");
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+            U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+            U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 600;
+          src: local("Montserrat SemiBold"), local("Montserrat-SemiBold"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTURjIg1_i6t8kCHKm45_bZF3gfD_u50.woff2)
+              format("woff2");
+          unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+            U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 600;
+          src: local("Montserrat SemiBold"), local("Montserrat-SemiBold"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTURjIg1_i6t8kCHKm45_bZF3gnD_g.woff2)
+              format("woff2");
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+            U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+            U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 800;
+          src: local("Montserrat ExtraBold"), local("Montserrat-ExtraBold"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTURjIg1_i6t8kCHKm45_c5H3gfD_u50.woff2)
+              format("woff2");
+          unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+            U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 800;
+          src: local("Montserrat ExtraBold"), local("Montserrat-ExtraBold"),
+            url(https://fonts.gstatic.com/s/montserrat/v12/JTURjIg1_i6t8kCHKm45_c5H3gnD_g.woff2)
+              format("woff2");
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+            U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+            U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        body {
+          font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+        }
+
+        b {
+          font-weight: 800;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div style="background-color:#e8e8e8; min-height: 3em; padding: 1em">
+      <a href="#siteurl">
+        <img src="{% static 'images/logo.png' %}" alt="Jemmy's Collection" />
+      </a>
+    </div>
+    <div>
+      <p>Hi {{ order.buyer.name }},</p>
+      <p>
+        Your order has been delivered! Thanks for placing an order with us.
+      </p>
+    </div>
+    <div style="display:flex; flex-direction:column;">
+      <div style="min-height:2em; background:#e8e8e8">
+        <p style="text-align:center; font-weight: 800">Order Info</p>
+      </div>
+      {% for item in order.items.all %}
+      <div style="display:flex; flex-direction:row">
+        <img
+          src="{{ item.item.images.all.0.photo.url }}"
+          alt="{{ item.item.name }}'s image"
+          style="width:5em"
+        />
+        <div>
+          <p style="margin-bottom:0.5em;">{{ item.item.name }}</p>
+          <p style="margin-bottom:0.5em;">X {{ item.quantity }}</p>
+        </div>
+        <div>
+          <p style="font-weight:800">{{ item.cost }}</p>
+        </div>
+      </div>
+      {% endfor %}
+      <div>
+        <p style="margin-bottom:0.5em;">
+          <span style="font-weight:800">Shipping</span>
+          <span style="float:right">{{ order.shipping }}</span>
+        </p>
+        <p>
+          <span style="font-weight:800">Total</span>
+          <span style="float:right">{{ order.total }}</span>
+        </p>
+      </div>
+    </div>
+    <p>For any issue regarding this order, feel free to reach us at <a href="mailto:support@jemmys.com">support@jemmys.com</a>. Include your Order ID. Yo can also raise your issue through our <a href="">Contact Us</a> page.</p>
+  </body>
+</html>

@@ -4,6 +4,8 @@ from django.core.validators import MinValueValidator
 from djmoney.models.fields import MoneyField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from .mail import send_an_email
+import threading
 import random
 import string
 
@@ -135,12 +137,19 @@ class Order(models.Model):
     buyer = models.ForeignKey(
         BuyerAddress, on_delete=models.CASCADE, related_name='orders')
     created = models.DateTimeField(auto_now_add=True)
+    __prev_status = None
 
     class Meta:
         """Meta definition for Order."""
 
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
+
+    
+    def __init__(self, *args, **kwargs):
+        super(Order, self).__init__(*args, **kwargs)
+        self.__prev_status = self.status
+    
 
     def __str__(self):
         """Unicode representation of Order."""
@@ -149,15 +158,26 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.order_id = id_generator(self)
-            # TODO: calculate shipping cost
         else:
             self.total = 0
-            for item in self.items.all():
-                self.total += item.cost
-            self.total += self.shipping
+            # Checking if status changed from Pending to Fulfilled
+            if self.__prev_status == 'P' and self.status == 'F':
+                for item in self.items.all():
+                    self.total += item.cost
+                    product = item.item
+                    product.quantity = models.F('quantity') - item.quantity
+                    product.save()
+                self.total += self.shipping
+                mail_thread = threading.Thread(target=send_an_email, args=(f"Your Order #{self.order_id} has been delivered! 🎉", self.buyer.email, {
+                    'order': self}, "email/toclientfulfilled.html"))
+                mail_thread.start()
+                mail_thread.join()
+            else:
+                for item in self.items.all():
+                    self.total += item.cost
+                self.total += self.shipping
         super(Order, self).save(*args, **kwargs)
 
-# TODO: minus product quantity when order is fulfilled
 
 class OrderItem(models.Model):
     """An item in an order."""
