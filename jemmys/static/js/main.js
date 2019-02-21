@@ -60,20 +60,3 @@ function asyncHttpGet(url, callback) {
 function setSessionStorage(key, value) {
   sessionStorage.setItem(key, value);
 }
-
-function getLocation() {
-  if (sessionStorage.getItem("city") == null) {
-    asyncHttpGet("https://ipapi.co/json/", function(response) {
-      var responseJSON = JSON.parse(response);
-      setSessionStorage("city", responseJSON["city"]);
-      $.post("{% url 'set-session' %}", {
-        city: responseJSON["city"],
-        csrfmiddlewaretoken: "{{ csrf_token }}"
-      }).done(function(data) {
-        if (data.statusText == "OK") {
-          console.log("❤ Success");
-        }
-      });
-    });
-  }
-}

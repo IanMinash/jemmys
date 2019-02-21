@@ -29,3 +29,14 @@ class OrderTest(TestCase):
         order.save()
         self.assertEqual(Product.objects.get(id=self.shoe.id).quantity, 3)
         self.assertEqual(Product.objects.get(id=self.shirt.id).quantity, 1)
+
+
+class SetSessionTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_session_variable_created(self):
+        self.client.post(reverse('set-session'), {'name':'Cleopatra'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(self.client.session['name'], 'Cleopatra')
+        self.client.post(reverse('set-session'), {'city':'Alexandria'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(self.client.session['city'], 'Alexandria')
