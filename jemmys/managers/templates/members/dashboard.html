@@ -1,0 +1,35 @@
+{% extends "base_mgrs.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+  Dashboard | Jemmy's Collection
+{% endblock title_block %}
+
+{% block body_block %}
+  <div class="grid dash" style="margin:0 5%;">
+       <div class="dash-item">
+          <a href="#">
+            <img src="{% static 'images/warehouse.svg' %}" alt="Products">
+          </a>
+          <p class="text-centered">Products</p>
+       </div>
+       <div class="dash-item">
+          <a href="#">
+            <img src="{% static 'images/receipt.svg' %}" alt="Orders">
+          </a>
+          <p class="text-centered">Orders</p>
+       </div>
+       <div class="dash-item">
+          <a href="#">
+            <img src="{% static 'images/contacts.svg' %}" alt="Customer contacts">
+          </a>
+          <p class="text-centered">Customer Contacts</p>
+       </div>
+       <div class="dash-item">
+           <a href="#">
+             <img src="{% static 'images/customer-service.svg' %}" alt="Customer Issues">
+           </a>
+           <p class="text-centered">Customer Issues</p>
+       </div>
+  </div>
+{% endblock body_block %}

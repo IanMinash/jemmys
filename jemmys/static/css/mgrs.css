@@ -1,0 +1,36 @@
+.grid.dash {
+  grid-template-columns: auto auto;
+  gap: 2em;
+}
+
+.dash-item img {
+  height: 5em;
+}
+
+.dash-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+}
+
+.dash-item:hover {
+  color: #14c967;
+}
+
+@media (min-width: 576px) {
+}
+
+@media (min-width: 768px) {
+  .grid.dash {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+}

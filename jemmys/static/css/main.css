@@ -183,7 +183,7 @@ select {
 
 .products {
   display: grid;
-  grid-gap: 2em;
+  gap: 2em;
   padding: 1em 5%;
 }
 
@@ -487,12 +487,12 @@ a:hover {
 .grid.make-order,
 .make-order form > .grid {
   grid-template-columns: auto;
-  grid-gap: 2em;
+  gap: 2em;
 }
 
 .grid.make-order {
   grid-template-areas: "order-details" "shipping-details";
-  grid-row-gap: 0;
+  row-gap: 0;
   box-shadow: 0 0 0.5em rgb(128, 128, 128);
   border-radius: 0.5em;
 }
@@ -510,12 +510,12 @@ a:hover {
 
 .grid.view-order {
   grid-template-columns: auto;
-  grid-column-gap: 2em;
+  column-gap: 2em;
 }
 
 .make-order form > .grid {
-  grid-column-gap: 1em;
-  grid-row-gap: unset;
+  column-gap: 1em;
+  row-gap: unset;
 }
 
 .grid.cart > div:last-child {
@@ -524,8 +524,8 @@ a:hover {
 }
 
 .grid.item {
-  grid-column-gap: 2em;
-  grid-row-gap: 0.5em;
+  column-gap: 2em;
+  row-gap: 0.5em;
   grid-template-columns: auto auto;
   padding-bottom: 0.5em;
   margin-bottom: 1em;
@@ -655,7 +655,7 @@ a:hover {
 
   .grid.prod-info {
     grid-template-columns: 55% auto;
-    grid-gap: 1em;
+    gap: 1em;
   }
 }
 
@@ -682,7 +682,7 @@ a:hover {
 
   .grid.prod-info {
     grid-template-columns: 45% auto;
-    grid-gap: 2em;
+    gap: 2em;
   }
 
   .grid.cart,
