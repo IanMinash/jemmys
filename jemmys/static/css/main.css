@@ -16,7 +16,8 @@ body {
 }
 
 #show-nav,
-#show-cart {
+#show-cart,
+#show-logout {
   align-items: center;
 }
 
@@ -127,6 +128,7 @@ a:hover {
   position: fixed;
   z-index: 1250;
   transition: transform 0.4s ease-in-out;
+  padding: 1em 5%;
 }
 
 #overlay {
@@ -150,10 +152,6 @@ a:hover {
 #side-nav.dismissed {
   transform: translateX(-100%);
   background: none;
-}
-
-#attributions {
-  padding: 1em 5%;
 }
 
 #attributions .card {
@@ -334,9 +332,17 @@ button.act-themed {
   border: 0;
 }
 
+.act-themed.cancel {
+  background-color: #6c757d;
+}
+
 .act-themed:hover {
   background-color: #00af52;
   color: #fafafa;
+}
+
+.act-themed.cancel:hover {
+  background-color: #555b61;
 }
 
 .act-themed:focus {
@@ -350,7 +356,7 @@ button.act-themed {
 
 .flex-xy-center {
   justify-content: center;
-  align-content: center;
+  align-items: center;
 }
 
 .flex-x-center {

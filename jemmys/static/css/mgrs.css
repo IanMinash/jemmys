@@ -1,3 +1,12 @@
+nav#navbar {
+  box-shadow: none;
+  background: none;
+}
+
+nav#navbar .nav {
+  justify-content: center;
+}
+
 .grid.dash {
   grid-template-columns: auto auto;
   gap: 2em;
@@ -18,6 +27,24 @@
 
 .dash-item:hover {
   color: #14c967;
+}
+
+#logout {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1250;
+  transition: transform 0.4s ease-in-out;
+}
+
+#logout.dismissed {
+  transform: translateY(-100%);
+}
+
+#dismiss-logout {
+  background: none;
+  border: 0;
+  transition: all 0.3s ease-in-out;
 }
 
 @media (min-width: 576px) {

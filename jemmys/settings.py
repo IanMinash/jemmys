@@ -107,6 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL='managers:login'
+LOGIN_REDIRECT_URL='managers:dashboard'
+
 # Email
 DEFAULT_FROM_EMAIL = os.environ.get('SERVER_EMAIL')
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
