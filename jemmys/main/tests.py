@@ -36,7 +36,31 @@ class SetSessionTest(TestCase):
         self.client = Client()
 
     def test_session_variable_created(self):
-        self.client.post(reverse('set-session'), {'name':'Cleopatra'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.post(reverse(
+            'set-session'), {'name': 'Cleopatra'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(self.client.session['name'], 'Cleopatra')
-        self.client.post(reverse('set-session'), {'city':'Alexandria'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.post(reverse(
+            'set-session'), {'city': 'Alexandria'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(self.client.session['city'], 'Alexandria')
+
+
+class ProductTest(TestCase):
+    def setUp(self):
+        self.cloth_cat = ProductCategory.objects.create(category="Clothes")
+        self.shirt = Product.objects.create(
+            name="Shirt", price=900, category=self.cloth_cat, quantity=3)
+        self.shirt_but_red = Product.objects.create(
+            name="Shirt #2", price=900, category=self.cloth_cat, quantity=1, variant_of=self.shirt, variant_info='Red')
+
+    def test_variant_price_change_on_parent_change(self):
+        self.shirt.price = 1200
+        self.shirt.save(update_fields=['price'])
+        self.shirt_but_red.refresh_from_db()
+        self.assertEqual(self.shirt_but_red.price, self.shirt.price)
+
+    def test_variant_category_change_on_parent_change(self):
+        new_cat = ProductCategory.objects.create(category="Shirts")
+        self.shirt.category = new_cat
+        self.shirt.save(update_fields=['category'])
+        self.shirt_but_red.refresh_from_db()
+        self.assertEqual(self.shirt_but_red.category, new_cat)

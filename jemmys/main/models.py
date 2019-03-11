@@ -40,12 +40,19 @@ class Product(models.Model):
         "self", on_delete=models.CASCADE, related_name='variants', blank=True, null=True)
     variant_info = models.CharField(max_length=50, blank=True, null=True)
     slug = models.SlugField(blank=True)
+    __prev_category = None
+    __prev_price = None 
 
     class Meta:
         """Meta definition for Product."""
 
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+
+    def __init__(self, *args, **kwargs):
+        super(Product, self).__init__(*args, **kwargs)
+        self.__prev_category = self.category
+        self.__prev_price = self.price
 
     def __str__(self):
         """Unicode representation of Product."""
@@ -56,6 +63,14 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        
+        """Reflect category and price changes to this Product's variants"""
+        if self.__prev_category != self.category or self.__prev_price != self.price:
+            for variant in self.variants.all():
+                variant.category = self.category
+                variant.price = self.price
+                variant.save(update_fields=['category', 'price'])
+
         super(Product, self).save(*args, **kwargs)
 
 
