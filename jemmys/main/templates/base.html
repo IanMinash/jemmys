@@ -174,6 +174,11 @@
                 <a href="{% url 'search-order' %}">ORDER STATUS</a>
                 <a href="{% url 'contact' %}">CONTACT US</a>
                 <a href="{% url 'shipping' %}">SHIPPING</a>
+                
+                {% if user.is_authenticated %}
+                <a href="{% url 'managers:dashboard' %}">MANAGERS</a>    
+                {% endif %}
+                    
             </div>
             <div class="flex flex-x-center m-1">
                 <a id="show-attr" target="attributions"><small>ATTRIBUTIONS</small></a>
@@ -275,6 +280,9 @@
         crossorigin="anonymous"></script> 
     <script src="{% static 'js/main.js' %}"></script>
     <script>
+        document.querySelector("#show-attr").addEventListener("click", toggleSide);
+        document.querySelector("#dismiss-attr").addEventListener("click", toggleSide);
+
         var categoryContainer = document.querySelectorAll('.cat');
         var cartLink = document.querySelector('#show-cart');
         $.get("{% url 'cats' %}", function (data) {
