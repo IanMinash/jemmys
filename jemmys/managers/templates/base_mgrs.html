@@ -141,6 +141,14 @@
             </div>
         </div>
     {% endif %}
+
+    {% block float_top_block %}
+      
+    {% endblock float_top_block %}
+    
+    {% block float_bottom_block %}
+      
+    {% endblock float_bottom_block %}
         
     <div id="main">
         {% block body_block %}
@@ -189,9 +197,13 @@
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script> 
     <script src="{% static 'js/main.js' %}"></script>
+    {% block script_block %}
+      
+    {% endblock script_block %}
     <script>
         document.querySelector("#show-logout").addEventListener("click", toggleSide);
         document.querySelector("#dismiss-logout").addEventListener("click", toggleSide);

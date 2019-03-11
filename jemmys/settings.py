@@ -24,6 +24,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'jemmys','media')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'mdi3-6d$^sqchm)=m1b+m4_l21k@w%la#zk*7#0$3ziq)b6a-v'
+GCLOUD_API_KEY = os.environ.get('GCLOUD_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

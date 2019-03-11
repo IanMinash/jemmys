@@ -1,0 +1,30 @@
+{% extends "base_mgrs.html" %}
+
+{% block title_block %}
+   Customers | Jemmy's Collection
+{% endblock title_block %}
+
+{% block body_block %}
+<div style="margin:0 5%;">
+    <div class="card" style="overflow:auto;">
+        <table id="customers" style="width:100%">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Orders</th>
+            </tr>
+            {% for customer in customers %}
+              <tr>
+                  <td>
+                    <a href="{% url 'managers:customer' customer.id %}">{{ customer.name }}</a>
+                  </td>
+                  <td>{{ customer.email }}</td>
+                  <td>{{ customer.phone }}</td>
+                  <td>{{ customer.orders.all|length }}</td>
+              </tr>
+            {% endfor %}
+          </table> 
+    </div>
+</div>
+{% endblock body_block %}

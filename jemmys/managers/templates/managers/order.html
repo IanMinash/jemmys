@@ -1,0 +1,68 @@
+{% extends "base_mgrs.html" %}
+
+
+{% block title_block %}
+    Order #{{ order.order_id }} | Jemmy's Collection
+{% endblock title_block %}
+    
+{% block body_block %}
+<div class="view-order mb-1" style="margin: 0 5%;">
+    <div class="card m-0" style="width:100%;">
+        <p class="title text-centered m-0 mb-1" style="font-size: 1.2em; color: #14c967;"># {{ order.order_id }}</p>
+        {% if order.status == 'P' %}
+        <div id="order-status">
+            <p class="m-0">PENDING</p>
+        </div>
+        {% elif order.status == 'F' %} 
+        <div id="order-status" class="success">
+            <p class="m-0">FULFILLED</p>
+        </div>
+        {% else %}
+        <div id="order-status" class="cancelled">
+            <p class="m-0">CANCELLED</p>
+        </div>
+        {% endif %}
+            
+        <div class="items">
+            {% for item in items %}
+            <div class="item grid">
+                <img src="{{ item.item.images.all.0.photo.url }}" alt="{{ item.item.name }}'s photo" style="width:100%"> 
+                <div>
+                    <a href="{% url 'managers:product' item.item.slug %}" class="m-0 mb-d5 title">{{ item.item.name }}</a>
+                    <p class="m-0">x{{ item.quantity }}</p>
+                    <p class="m-0 text-right">{{ item.cost }}</p>
+                </div>
+                <p class="m-0 text-right">{{ item.cost }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <table class="mb-1">
+            <tbody>
+            <tr>
+                <td class="l">Items</td>
+                <td class="r">{{ item_total }}</td>
+            </tr>
+            <tr>
+                <td class="l">Shipping</td>
+                <td class="r">{{ order.shipping }}</td>
+            </tr>
+            <tr>
+                <td class="l">Total</td>
+                <td class="r">{{ order.total }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="title m-0">Ship To</p>
+        <div class="s-info">
+            <p class="m-0">{{ order.buyer.name }}</p>
+            <a href="mailto:{{ order.buyer.email }}" class="m-0">{{ order.buyer.email }}</a>
+            <p class="m-0">{{ order.buyer.street }}</p>
+            {% if order.buyer.house %}
+            <p class="m-0">{{ order.buyer.house }}</p> 
+            {% endif %}
+            <p class="m-0">{{ order.buyer.city }}</p>
+            <p class="m-0">{{ order.buyer.country }}</p>
+        </div>
+    </div>
+</div>
+{% endblock body_block %}

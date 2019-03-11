@@ -8,19 +8,19 @@
 {% block body_block %}
   <div class="grid dash" style="margin:0 5%;">
        <div class="dash-item">
-          <a href="#">
+          <a href="{% url 'managers:products' %}"> 
             <img src="{% static 'images/icons/warehouse.svg' %}" alt="Products">
           </a>
           <p class="text-centered">Products</p>
        </div>
        <div class="dash-item">
-          <a href="#">
+          <a href="{% url 'managers:orders' %}">
             <img src="{% static 'images/icons/receipt.svg' %}" alt="Orders">
           </a>
           <p class="text-centered">Orders</p>
        </div>
        <div class="dash-item">
-          <a href="#">
+          <a href="{% url 'managers:customers' %}"> 
             <img src="{% static 'images/icons/contacts.svg' %}" alt="Customer contacts">
           </a>
           <p class="text-centered">Customer Contacts</p>

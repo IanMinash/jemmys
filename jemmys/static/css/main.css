@@ -104,6 +104,7 @@ a:hover {
 
 #main {
   padding-top: 4.8em;
+  min-height: 63vh;
 }
 
 #footer {
@@ -254,7 +255,7 @@ table td.l {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
 .d-block {
@@ -368,35 +369,39 @@ button.act-themed {
 }
 
 .m-0 {
-  margin: 0;
+  margin: 0 !important;
 }
 
 .m-1 {
-  margin: 1em;
+  margin: 1em !important;
 }
 
 .mb-d5 {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5em !important;
 }
 
 .mb-1 {
-  margin-bottom: 1em;
+  margin-bottom: 1em !important;
+}
+
+.mt-d5 {
+  margin-top: 0.5em !important;
 }
 
 .p-0 {
-  padding: 0;
+  padding: 0 !important;
 }
 
 .p-d5 {
-  padding: 0.5em;
+  padding: 0.5em !important;
 }
 
 .p-y-1 {
-  padding: 1em 0;
+  padding: 1em 0 !important;
 }
 
 .p-1 {
-  padding: 1em;
+  padding: 1em !important;
 }
 
 #curr-photo {
@@ -683,7 +688,6 @@ a:hover {
 
   #main {
     padding-top: 6.2em;
-    min-height: 63vh;
   }
 
   .grid.prod-info {

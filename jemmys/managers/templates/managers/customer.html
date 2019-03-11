@@ -1,0 +1,107 @@
+{% extends "base_mgrs.html" %}
+
+{% block title_block %}
+  {{ customer.name }} | Jemmy's Collection
+{% endblock title_block %}
+
+{% block body_block %}
+<div style="margin:0 5%;">
+    <div class="card">
+        <div id="customer-info" class="grid">
+            <div id="info">
+                <p class="m-0">
+                    <span class="bold" style="font-size:0.8em; display: inline-block; min-width: 7.5rem;">NAME:</span><span>{{ customer.name }}</span>
+                    <br>
+                    <span class="bold" style="font-size:0.8em; display: inline-block; min-width: 7.5rem;">EMAIL:</span><span>{{ customer.email }}</span>
+                    <br>
+                    <span class="bold" style="font-size:0.8em; display: inline-block; min-width: 7.5rem;">PHONE:</span><span>{{ customer.phone }}</span>
+                    <br>
+                    <span class="bold" style="font-size:0.8em; display: inline-block; min-width: 7.5rem;">HOUSE NO:</span><span>{{ customer.house }}</span>
+                    <br>
+                    <span class="bold" style="font-size:0.8em; display: inline-block; min-width: 7.5rem;">STREET/ESTATE:</span><span>{{ customer.street }}</span>
+                    <br>
+                    <span class="bold" style="font-size:0.8em; display: inline-block; min-width: 7.5rem;">CITY:</span><span>{{ customer.city }}</span>
+                    <br>
+                    <span class="bold" style="font-size:0.8em; display: inline-block; min-width: 7.5rem;">COUNTRY:</span><span>{{ customer.country }}</span>
+                    <br>
+                </p>
+            </div>
+            <div id="location" style="min-height:15rem;">
+                <div id="map" style="height:100%; width:100%; border-radius:0.5em;">
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h4 class="mt-d5">ORDERS BY {{ customer.name }}</h4>
+        <div style="overflow: auto;">
+            <table id="orders">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                </tr>
+                {% for order in orders %}
+                <tr>
+                    <td>
+                        <a href="{% url 'managers:view-order' order.order_id %}"># {{ order.order_id }}</a> 
+                    </td>
+                    <td>
+                        {{ order.created|date }}
+                    </td>
+                    <td>
+                        {% if order.status == 'F' %}
+                        <span class="text-centered st-s bold" style="padding:0.2em 0.5em;">Fulfilled</span>
+                        {% else %}
+                            {% if order.status == 'P' %}
+                                <span class="text-centered st-p bold" style="padding:0.2em 0.5em;">Pending</span>
+                            {% else %}
+                                <span class="text-centered st-c bold" style="padding:0.2em 0.5em;">Cancelled</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ order.total }}
+                    </td>
+                </tr>
+                {% empty %}
+                    <p class="mb-0">This customer has no orders.</p>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body_block %}
+
+{% block script_block %}
+<script>
+    function geoCode() {
+        var storage = window.localStorage;
+        var location = storage.getItem("loc-{{ customer.id }}");
+        if (location) {
+            initMap(JSON.parse(location));
+        } else {
+            const address = "{{ customer.house }}, {{ customer.street }}, {{ customer.city }}, {{ customer.country }}";
+            var url = `https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=${address}&key={{ api_key }}`;
+            asyncHttpGet(url, initMap);
+        }
+    }
+
+    function initMap(data) {
+        try {
+            var jsonData = JSON.parse(data);
+            var loc = jsonData.results[0].geometry.location;
+            window.localStorage.setItem("loc-{{ customer.id }}", JSON.stringify(loc));
+        } catch (error) {
+            loc = data;
+        }
+        var map = new google.maps.Map(
+            document.getElementById('map'), { zoom: 15, center: loc });
+        var marker = new google.maps.Marker({ position: loc, map: map });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=geoCode">
+</script>
+
+{% endblock script_block %}

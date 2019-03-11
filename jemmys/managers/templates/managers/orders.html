@@ -1,0 +1,43 @@
+{% extends "base_mgrs.html" %}
+
+{% block title_block %}
+    Orders | Jemmy's collection
+{% endblock title_block %}
+    
+
+{% block body_block %}
+    <div class="mb-1" style="margin: 0 5%; overflow-x: auto;">
+        <div class="grid order-list-item">
+            <span class="bold" style="grid-area:id">Order</span>
+            <span class="bold text-centered" style="grid-area:date">Date</span>
+            <span class="bold text-centered customer" style="grid-area:customer">Customer</span>
+            <span class="bold text-centered" style="grid-area:status">Status</span>
+            <span class="bold text-centered" style="grid-area:total">Total</span>
+        </div>
+        <hr>
+        <div class="order-list">
+            {% for order in orders %}
+              <div class="grid order-list-item">
+                  <a href="{% url 'managers:view-order' order.order_id %}" style="grid-area:id"># {{ order.order_id }}</a> 
+                  <span class="text-centered" style="grid-area:date">{{ order.created|date }}</span>
+                  <a href="{% url 'managers:customer' order.buyer.id %}" class="text-centered customer" style="grid-area:customer">{{ order.buyer.name }}</a>
+                  
+                  {% if order.status == 'F' %}
+                    <span class="text-centered st-s bold" style="grid-area:status">Fulfilled</span>
+                  {% else %}
+                    {% if order.status == 'P' %}
+                        <span class="text-centered st-p bold" style="grid-area:status">Pending</span>
+                    {% else %}
+                        <span class="text-centered st-c bold" style="grid-area:status">Cancelled</span>
+                    {% endif %}
+                  {% endif %}
+                      
+                  <span class="text-centered" style="grid-area:total">{{ order.total }}</span>
+              </div>
+            {% empty %}
+              <p class="mb-0">There are no orders.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body_block %}
+    

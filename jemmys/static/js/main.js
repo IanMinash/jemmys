@@ -11,8 +11,6 @@ function toggleSide() {
 
 document.querySelector("#show-nav").addEventListener("click", toggleSide);
 document.querySelector("#dismiss-nav").addEventListener("click", toggleSide);
-document.querySelector("#show-attr").addEventListener("click", toggleSide);
-document.querySelector("#dismiss-attr").addEventListener("click", toggleSide);
 
 function toggleImage() {
   images = this.querySelectorAll("img");

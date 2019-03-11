@@ -1,0 +1,39 @@
+{% extends "base_mgrs.html" %}
+
+{% block title_block %}
+    Products | Jemmy's Collection
+{% endblock title_block %}
+    
+{% block body_block %}
+<div style="margin: 0 5%;">
+    <div class="flex top">
+        <p class="m-0 title">Products</p> 
+        <a href="{% url 'managers:new-product' %}"><button class="act-themed" style="padding: 0.25em 1em;">NEW PRODUCT</button></a>
+    </div>
+    <hr>
+    <div class="card product-list">
+        {% for product in products %}
+          <div class="grid product-list-item">
+            <img src="{{ product.images.all.0.photo.url }}" style="width:5em;" alt="{{ product.name }}'s image">
+            <div class="product-details">
+                <span class="m-0">{{ product.name }}</span>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>QTY: <span class="bold">{{ product.quantity }}</span></td>
+                            <td>Price: <span class="bold">{{ product.price }}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="link flex">
+                <a href="{% url 'managers:product' product.slug %}">
+                    <button class="act-themed">VIEW</button>
+                </a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body_block %}
+    
