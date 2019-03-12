@@ -1,80 +1,168 @@
 {% extends "base_mgrs.html" %}
 
 
-{% block title_block %}
-    Order #{{ order.order_id }} | Jemmy's Collection
-{% endblock title_block %}
-    
+{% block title_block %} 
+   Order #{{ order.order_id }} | Jemmy's Collection
+{% endblock title_block %} 
+
 {% block body_block %}
 <div class="view-order mb-1" style="margin: 0 5%;">
-    <div class="flex" style="justify-content:left;">
-        <a href="javascript:history.back()" class="flex" style="align-items:center;">
-            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                y="0px" viewBox="0 0 477.175 477.175" style="height: 1.25rem;" xml:space="preserve">
-                <g>
-                    <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
-                                c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z" />
-                </g>
-            </svg>
-            Back
-        </a> 
-    </div>
-    <div class="card" style="width:100%;">
-        <p class="title text-centered m-0 mb-1" style="font-size: 1.2em; color: #14c967;"># {{ order.order_id }}</p>
+  <div class="flex" style="justify-content:left;">
+    <a
+      href="javascript:history.back()"
+      class="flex"
+      style="align-items:center;"
+    >
+      <svg
+        version="1.1"
+        id="Capa_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        viewBox="0 0 477.175 477.175"
+        style="height: 1.25rem;"
+        xml:space="preserve"
+      >
+        <g>
+          <path
+            d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
+                                c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z"
+          />
+        </g>
+      </svg>
+      Back
+    </a>
+  </div>
+  <div class="card" style="width:100%;">
+    <p
+      class="title text-centered m-0 mb-1"
+      style="font-size: 1.2em; color: #14c967;"
+    >
+      # {{ order.order_id }}
+    </p>
+    <span class="d-block bold">STATUS</span>
+    <form method="POST">
         {% if order.status == 'P' %}
-        <div id="order-status">
-            <p class="m-0">PENDING</p>
-        </div>
-        {% elif order.status == 'F' %} 
-        <div id="order-status" class="success">
-            <p class="m-0">FULFILLED</p>
-        </div>
+        <select
+          name="order_status"
+          id="order_status"
+          onchange="statusChange(event)"
+          initial="{{ order.status }}"
+          class="st-p"
+          style="width:100%"
+        >
+          <option value="P" selected>Pending</option>
+          <option value="C">Cancelled</option>
+          <option value="F">Fulfilled</option>
+        </select>
+        {% elif order.status == 'C' %}
+        <select
+          name="order_status"
+          id="order_status"
+          onchange="statusChange(event)"
+          initial="{{ order.status }}"
+          class="st-c"
+          style="width:100%"
+        >
+          <option value="P">Pending</option>
+          <option value="C" selected>Cancelled</option>
+          <option value="F">Fulfilled</option>
+        </select>
         {% else %}
-        <div id="order-status" class="cancelled">
-            <p class="m-0">CANCELLED</p>
-        </div>
+        <select
+          name="order_status"
+          id="order_status"
+          onchange="statusChange(event)"
+          initial="{{ order.status }}"
+          class="st-s"
+          style="width:100%"
+        >
+          <option value="P">Pending</option>
+          <option value="C">Cancelled</option>
+          <option value="F" selected>Fulfilled</option>
+        </select>
         {% endif %}
-            
-        <div class="items">
-            {% for item in items %}
-            <div class="item grid">
-                <img src="{{ item.item.images.all.0.photo.url }}" alt="{{ item.item.name }}'s photo" style="width:100%"> 
-                <div>
-                    <a href="{% url 'managers:product' item.item.slug %}" class="m-0 mb-d5 title">{{ item.item.name }}</a>
-                    <p class="m-0">x{{ item.quantity }}</p>
-                    <p class="m-0 text-right">{{ item.cost }}</p>
-                </div>
-                <p class="m-0 text-right">{{ item.cost }}</p>
+        {% csrf_token %}
+        <input type="submit" class="act-themed mt-1 d-none" id="updateButton" value="UPDATE STATUS">
+    </form>
+    <div class="items mt-1">
+      {% for item in items %}
+        <div class="item grid">
+            <img
+            src="{{ item.item.images.all.0.photo.url }}"
+            alt="{{ item.item.name }}'s photo"
+            style="width:100%"
+            />
+            <div>
+            <a
+                href="{% url 'managers:product' item.item.slug %}"
+                class="m-0 mb-d5 title"
+                >{{ item.item.name }}</a
+            >
+            <p class="m-0">x{{ item.quantity }}</p>
+            <p class="m-0 text-right">{{ item.cost }}</p>
             </div>
-            {% endfor %}
+            <p class="m-0 text-right">{{ item.cost }}</p>
         </div>
-        <table class="mb-1">
-            <tbody>
-            <tr>
-                <td class="l">Items</td>
-                <td class="r">{{ item_total }}</td>
-            </tr>
-            <tr>
-                <td class="l">Shipping</td>
-                <td class="r">{{ order.shipping }}</td>
-            </tr>
-            <tr>
-                <td class="l">Total</td>
-                <td class="r">{{ order.total }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <p class="title m-0">Ship To</p>
-        <div class="s-info">
-            <p class="m-0">{{ order.buyer.name }}</p>
-            <a href="mailto:{{ order.buyer.email }}" class="m-0">{{ order.buyer.email }}</a>
-            <p class="m-0">{{ order.buyer.street }}</p>
-            {% if order.buyer.house %}
-            <p class="m-0">{{ order.buyer.house }}</p> 
-            {% endif %}
-            <p class="m-0">{{ order.buyer.city }}</p>
-            <p class="m-0">{{ order.buyer.country }}</p>
-        </div>
+      {% endfor %}
     </div>
+    <table class="mb-1">
+      <tbody>
+        <tr>
+          <td class="l">Items</td>
+          <td class="r">{{ item_total }}</td>
+        </tr>
+        <tr>
+          <td class="l">Shipping</td>
+          <td class="r">{{ order.shipping }}</td>
+        </tr>
+        <tr>
+          <td class="l">Total</td>
+          <td class="r">{{ order.total }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="title m-0">Ship To</p>
+    <div class="s-info">
+      <p class="m-0">{{ order.buyer.name }}</p>
+      <a href="mailto:{{ order.buyer.email }}" class="m-0">{{ order.buyer.email }}</a>
+      <p class="m-0">{{ order.buyer.street }}</p>
+      {% if order.buyer.house %}
+        <p class="m-0">{{ order.buyer.house }}</p>
+      {% endif %}
+      <p class="m-0">{{ order.buyer.city }}</p>
+      <p class="m-0">{{ order.buyer.country }}</p>
+    </div>
+  </div>
 </div>
-{% endblock body_block %}
+{% endblock body_block %} 
+
+{% block script_block %}
+<script>
+  var updateButton = document.getElementById("updateButton");
+  function statusChange(e) {
+    var orderStatus = e.target.value;
+    var statusClasses = e.target.className.match(/\bst\S+/ig);
+    for (const cName in statusClasses) {
+        e.target.classList.remove(statusClasses[cName]);
+    }
+    switch (orderStatus) {
+      case "C":
+        e.target.classList.add("st-c");
+        break;
+      case "F":
+        e.target.classList.add("st-s");
+        break;
+      default:
+        e.target.classList.add("st-p");
+        break;
+    }
+    if (orderStatus != e.target.initial) {
+      updateButton.classList.remove("d-none");
+    } else {
+      updateButton.classList.add("d-none");
+    }
+  }
+</script>
+{% endblock script_block %}

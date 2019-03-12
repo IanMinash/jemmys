@@ -388,6 +388,10 @@ button.act-themed {
   margin-top: 0.5em !important;
 }
 
+.mt-1 {
+  margin-top: 1em !important;
+}
+
 .p-0 {
   padding: 0 !important;
 }

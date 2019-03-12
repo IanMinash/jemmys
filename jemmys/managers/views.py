@@ -103,7 +103,12 @@ def view_order(request, order_id):
     item_total = 0
     for item in items:
         item_total += item.cost
-    return render(request, "managers/order.html", context={'order': order, 'items': items, 'item_total': item_total})
+    context={'order': order, 'items': items, 'item_total': item_total}
+    if request.method == "POST":
+        order.status = request.POST.get("order_status")
+        order.save(update_fields=["status"])
+        context['success'] = True
+    return render(request, "managers/order.html", context=context)
 
 
 @login_required
