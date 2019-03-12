@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import dash, Login, Logout, ProductListView, ProductDetailView, update_product, new_product, OrderListView, view_order, variant_manager, CustomerListView, CustomerDetailView
+from .views import dash, Login, Logout, ProductListView, ProductDetailView, update_product, new_product, OrderListView, view_order, variant_manager, CustomerListView, CustomerDetailView, IssueListView, IssueDetailView, issue_manager
 
 app_name = 'managers'
 
@@ -19,4 +19,7 @@ urlpatterns = [
     path('order/<order_id>', view_order, name='view-order'),
     path('customers/', CustomerListView.as_view(), name='customers'),
     path('customer/<pk>', CustomerDetailView.as_view(), name='customer'),
+    path('issues', IssueListView.as_view(), name='issues'),
+    path('issue/<pk>', IssueDetailView.as_view(), name='issue'),
+    path('issue/update/<pk>', issue_manager, name='issue-manager'),
 ]

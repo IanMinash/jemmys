@@ -227,10 +227,16 @@ def order_total(sender, instance, **kwargs):
 
 class UserIssue(models.Model):
     """Model definition for a User Issue, request or suggestion."""
+    statuses = (
+        ('FR', 'For Review'),
+        ('UR', 'Under Review'),
+        ('R', 'Resolved'),
+    )
 
     name = models.CharField(max_length=50)
     email = models.EmailField()
     issue = models.TextField(max_length=1000)
+    status = models.CharField(max_length=3, choices=statuses, default='FR')
     created = models.DateField(auto_now_add=True)
 
     class Meta:

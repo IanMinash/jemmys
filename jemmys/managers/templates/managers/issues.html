@@ -1,0 +1,40 @@
+{% extends "base_mgrs.html" %}
+
+{% block title_block %}
+User Issues | Jemmy's Collection
+{% endblock title_block %}
+
+{% block body_block %}
+<div style="margin:0 5%;">
+    <div class="flex" style="justify-content:left;">
+        <a href="javascript:history.back()" class="flex" style="align-items:center;">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                y="0px" viewBox="0 0 477.175 477.175" style="height: 1.25rem;" xml:space="preserve">
+                <g>
+                    <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
+                                c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z" />
+                </g>
+            </svg>
+            Back
+        </a> 
+    </div>
+    <h2 class="mt-d5">Issues</h2>
+    {% for issue in issues %}
+        <div id="issue" class="grid mb-1">
+            <span class="bold">{{ issue.name }}</span>
+            <span>{{ issue.issue|truncatechars:150 }}</span>
+            {% if issue.status == 'R' %}
+                <span class="st-s bold text-centered">Resolved</span>
+            {% elif issue.status == 'FR' %}
+                <span class="st-p bold text-centered">For Review</span>
+            {% else %}
+                <span class="st-i bold text-centered">Under Review</span>
+            {% endif %}
+            
+            <a href="{% url 'managers:issue' issue.pk %}" class="act-themed m-0" style="grid-area:link;">VIEW</a>
+        </div>
+    {% empty %}
+        <p class="text-centered">There are no User Issues 😁</p>
+    {% endfor %}
+</div>
+{% endblock body_block %}

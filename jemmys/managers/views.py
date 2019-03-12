@@ -5,7 +5,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.shortcuts import redirect, get_object_or_404
 from django.conf import settings
-from jemmys.main.models import Product, ProductPhoto, ProductCategory, Order, BuyerAddress
+from jemmys.main.models import Product, ProductPhoto, ProductCategory, Order, BuyerAddress, UserIssue
+from django_ajax.decorators import ajax
 from .forms import LoginForm, NewProductForm, NewVariantForm
 
 # Create your views here.
@@ -139,3 +140,25 @@ class CustomerDetailView(LoginRequiredMixin, DetailView):
         context['api_key'] = settings.GCLOUD_API_KEY
         return context
     
+
+class IssueListView(LoginRequiredMixin, ListView):
+    model = UserIssue
+    template_name = "managers/issues.html"
+    context_object_name = "issues"
+
+
+
+class IssueDetailView(LoginRequiredMixin, DetailView):
+    model = UserIssue
+    template_name = "managers/issue.html"
+    context_object_name = "issue"
+
+
+@login_required
+@ajax
+def issue_manager(request, pk):
+    if request.method == 'POST':
+        issue = UserIssue.objects.get(pk=pk)
+        issue.status = request.POST.get("status")
+        issue.save(update_fields=["status"])
+        return {'text':"SUCCESS"}

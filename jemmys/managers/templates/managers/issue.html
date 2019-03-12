@@ -1,0 +1,62 @@
+{% extends "base_mgrs.html" %}
+
+{% block title_block %}
+  Issue by {{ issue.name }} | Jemmy's Collection
+{% endblock title_block %}
+
+{% block body_block %}
+<div style="margin: 0 5%;">
+    <div class="flex" style="justify-content:left;">
+        <a href="javascript:history.back()" class="flex" style="align-items:center;">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                y="0px" viewBox="0 0 477.175 477.175" style="height: 1.25rem;" xml:space="preserve">
+                <g>
+                    <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
+                                c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z" />
+                </g>
+            </svg>
+            Back
+        </a> 
+    </div>
+    <div class="card">
+        <h2 class="m-0">{{ issue.name }}'s Issue</h2>
+        <span class="d-i-block bold" style=" min-width: 5em;">EMAIL:</span><a href="mailto:{{ issue.email }}">{{ issue.email }}</a>
+        <p class="m-0">{{ issue.issue }}</p>
+        <span class="d-block bold">STATUS</span>
+        <select name="status" id="issue-status" class="mb-1" initial="{{ issue.status }}" onchange="changeStatusToggle(event)" style="width:100%;">
+            <option value="FR" {% if issue.status == 'FR' %}selected{% endif %}>For Review</option>
+            <option value="UR" {% if issue.status == 'UR' %}selected{% endif %}>Under Review</option>
+            <option value="R" {% if issue.status == 'R' %}selected{% endif %}>Resolved</option>
+        </select>
+        <button class="act-themed d-none" id="change-button" onclick="postStatus()">CHANGE STATUS</button>
+    </div>
+</div>
+{% endblock body_block %}
+
+{% block script_block %}
+<script>
+    var issueStatus = document.getElementById("issue-status");
+    var changeButton = document.getElementById("change-button");
+    function changeStatusToggle(event) {
+        if (event.target.value != event.target.getAttribute("initial")) {
+            changeButton.classList.remove("d-none");
+        } else {
+            changeButton.classList.add("d-none");
+        }
+    }
+
+    function postStatus() {
+        var data = { status: issueStatus.value, csrfmiddlewaretoken: '{{ csrf_token }}'};
+        $.post("{% url 'managers:issue-manager' issue.pk %}", data).done(function (data) {
+            if (data.statusText == 'OK') {
+                issueStatus.setAttribute('initial', issueStatus.value);
+                changeButton.innerHTML = 'UPDATED!';
+                setTimeout(function () {
+                    changeButton.classList.add('d-none');
+                    changeButton.innerHTML = 'CHANGE STATUS';
+                }, 1300);
+            }
+        });
+    }
+</script>
+{% endblock script_block %}
