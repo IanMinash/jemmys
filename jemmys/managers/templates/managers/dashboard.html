@@ -8,28 +8,28 @@
 {% block body_block %}
   <div class="grid dash" style="margin:0 5%;">
        <div class="dash-item">
-          <a href="{% url 'managers:products' %}"> 
+          <a href="{% url 'managers:products' %}" class="text-centered"> 
             <img src="{% static 'images/icons/warehouse.svg' %}" alt="Products">
+            <p class="text-centered">Products</p>
           </a>
-          <p class="text-centered">Products</p>
        </div>
        <div class="dash-item">
-          <a href="{% url 'managers:orders' %}">
+          <a href="{% url 'managers:orders' %}" class="text-centered">
             <img src="{% static 'images/icons/receipt.svg' %}" alt="Orders">
+            <p class="text-centered">Orders</p>
           </a>
-          <p class="text-centered">Orders</p>
        </div>
        <div class="dash-item">
-          <a href="{% url 'managers:customers' %}"> 
+          <a href="{% url 'managers:customers' %}" class="text-centered"> 
             <img src="{% static 'images/icons/contacts.svg' %}" alt="Customer contacts">
+            <p class="text-centered">Customer Contacts</p>
           </a>
-          <p class="text-centered">Customer Contacts</p>
        </div>
        <div class="dash-item">
-           <a href="#">
+           <a href="{% url 'managers:issues' %}" class="text-centered">
              <img src="{% static 'images/icons/customer-service.svg' %}" alt="Customer Issues">
+             <p class="text-centered">Customer Issues</p>
            </a>
-           <p class="text-centered">Customer Issues</p>
        </div>
   </div>
 {% endblock body_block %}

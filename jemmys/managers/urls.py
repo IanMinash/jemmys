@@ -13,11 +13,10 @@ urlpatterns = [
        path('create-variant', variant_manager, name='new-variant'),
        path('<slug:slug>', ProductDetailView.as_view(), name='product'),
        path('update/<slug:slug>', update_product, name='update-product'),
-
     ])),
     path('orders', OrderListView.as_view(), name='orders'),
     path('order/<order_id>', view_order, name='view-order'),
-    path('customers/', CustomerListView.as_view(), name='customers'),
+    path('customers', CustomerListView.as_view(), name='customers'),
     path('customer/<pk>', CustomerDetailView.as_view(), name='customer'),
     path('issues', IssueListView.as_view(), name='issues'),
     path('issue/<pk>', IssueDetailView.as_view(), name='issue'),

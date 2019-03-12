@@ -219,4 +219,4 @@ Procfile    text
 *.exe binary
 *.pyc binary
 
-static/js/tinymce/* linguist-vendored
+jemmys/static/js/tinymce/* linguist-vendored

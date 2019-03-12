@@ -24,7 +24,8 @@ nav#navbar .nav {
   overflow: auto;
 }
 
-#customers td, #orders td {
+#customers td,
+#orders td {
   text-align: center;
   white-space: nowrap;
 }
@@ -256,7 +257,7 @@ select {
     grid-template-columns: auto 50%;
   }
 
-  .grid.dash {
+  .dash.grid {
     grid-template-columns: auto auto auto auto;
   }
 
