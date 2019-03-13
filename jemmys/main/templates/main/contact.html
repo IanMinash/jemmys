@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title_block %}
     Contact Us | Jemmy's Collection
@@ -8,28 +9,33 @@
  Do you have any issues, requests or suggestions for us? Get in touch with us!
 {% endblock descr_block %}
 
-{% block style_block %}
-  <style>
-      .card.grid {
-          grid-template-areas: 'form' 'details';
-          grid-gap: 2em;
-      }
+{% block header_block %}
+<meta property="og:url"           content="{{ request.META.HTTP_HOST }}" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Contact Us | Jemmy's Collection" />
+<meta property="og:description"   content=" Do you have any issues, requests or suggestions for us? Get in touch with us!" />
+<meta property="og:image"         content="{% static 'images/logo.png' %}" />
+<style>
+    .card.grid {
+        grid-template-areas: 'form' 'details';
+        grid-gap: 2em;
+    }
 
-      .card.grid>form {
-          grid-area: form;
-      }
+    .card.grid>form {
+        grid-area: form;
+    }
 
-      .card.grid>div {
-          grid-area: details;
-      }
+    .card.grid>div {
+        grid-area: details;
+    }
 
-      @media(min-width:992px) {
-        .card.grid {
-          grid-template-areas: 'form details';
-      }
-      }
-  </style>
-{% endblock style_block %}
+    @media(min-width:992px) {
+    .card.grid {
+        grid-template-areas: 'form details';
+    }
+    }
+</style>
+{% endblock header_block %}
 
 {% block body_block %}
 <div style="margin:0 5%;">

@@ -8,7 +8,7 @@
   Order #{{ order.order_id }} has {{ items|length }} items. The total cost is {{ order.total }}.
 {% endblock descr_block %}
 
-{% block style_block %}
+{% block header_block %}
   <style>
     .s-info {
       border: 1px solid rgb(128,128,128);
@@ -28,7 +28,7 @@
       }
     }
   </style>
-{% endblock style_block %}
+{% endblock header_block %}
 
 {% block body_block %}
 <div class="grid view-order" style="margin: 1em 5%;">

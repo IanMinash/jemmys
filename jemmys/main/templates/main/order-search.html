@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 
 {% block title_block %}
     View your Order Status | Jemmy's Collection
@@ -9,7 +9,14 @@
 {% block descr_block %}
     View your order details. Enter the order number to continue.
 {% endblock descr_block %}
-    
+  
+{% block header_block %}
+<meta property="og:url"           content="{{ request.META.HTTP_HOST }}/{{ request.path }}" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="View your Order | Jemmy's Collection" />
+<meta property="og:description"   content="Enter your order ID to view the order details." />
+<meta property="og:image"         content="{% static 'images/logo.png' %}" />
+{% endblock header_block %}
 
 {% block body_block %}
     <div class="flex flex-xy-center" style="margin: 0 5%; min-height: 23em;">

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 
 {% block title_block %}
     Jemmy's Collection
@@ -10,6 +10,13 @@
     Jemmy's Collection
 {% endblock descr_block %}
     
+{% block header_block %}
+<meta property="og:url"           content="{{ request.META.HTTP_HOST }}" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Jemmy's Collection" />
+<meta property="og:description"   content="Jemmy's Collection" />
+<meta property="og:image"         content="{% static 'images/logo.png' %}" />
+{% endblock header_block %}
 
 {% block body_block %}
     <div class="products">
