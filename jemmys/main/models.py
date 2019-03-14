@@ -51,7 +51,8 @@ class Product(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(Product, self).__init__(*args, **kwargs)
-        self.__prev_category = self.category
+        if self.pk:
+            self.__prev_category = self.category
         self.__prev_price = self.price
 
     def __str__(self):
