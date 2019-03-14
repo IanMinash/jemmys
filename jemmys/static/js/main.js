@@ -4,7 +4,7 @@ function toggleSide() {
   var id = this.getAttribute("target");
   document.getElementById(id).classList.toggle("dismissed");
   document.getElementById("overlay").classList.toggle("show");
-  setTimeout(() => {
+  setTimeout(function () {
     document.getElementById("overlay").classList.toggle("delay");
   }, 400);
 }
@@ -19,6 +19,16 @@ function toggleImage() {
       image.classList.toggle("d-none");
     });
   }
+}
+
+function clickInput(e) {
+  e.stopPropagation(); 
+  var inputId = e.target.getAttribute("target");
+  var input = document.getElementById(inputId);
+  clickEvent = document.createEvent("MouseEvents");
+  clickEvent.initEvent("click", true, true);
+  clickEvent.synthetic = true;
+  input.dispatchEvent(clickEvent);
 }
 
 function oneToOne() {
