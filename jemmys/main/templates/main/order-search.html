@@ -11,7 +11,7 @@
 {% endblock descr_block %}
   
 {% block header_block %}
-<meta property="og:url"           content="{{ request.META.HTTP_HOST }}/{{ request.path }}" />
+<meta property="og:url"           content="https://{{ request.META.HTTP_HOST }}{{ request.path }}" />
 <meta property="og:type"          content="website" />
 <meta property="og:title"         content="View your Order | Jemmy's Collection" />
 <meta property="og:description"   content="Enter your order ID to view the order details." />

@@ -10,7 +10,7 @@
 {% endblock descr_block %}
 
 {% block header_block %}
-<meta property="og:url"           content="{{ request.META.HTTP_HOST }}" />
+<meta property="og:url"           content="https://{{ request.META.HTTP_HOST }}{{ request.path }}" />
 <meta property="og:type"          content="website" />
 <meta property="og:title"         content="Contact Us | Jemmy's Collection" />
 <meta property="og:description"   content=" Do you have any issues, requests or suggestions for us? Get in touch with us!" />

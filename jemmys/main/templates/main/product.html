@@ -13,7 +13,7 @@
 <meta property="og:title" content="{{ product.name }}" />
 <meta property="og:description" content="{{ product.description|striptags }}" />
 <meta property="og:type" content="product" />
-<meta property="og:url" content="{{ request.META.HTTP_HOST }}/{{ request.path }}" />
+<meta property="og:url" content="https://{{ request.META.HTTP_HOST }}{{ request.path }}" />
 <meta property="og:image" content="{{ photos.0.photo.url }}" />
 <meta property="og:site_name" content="Jemmy's Collection" />
 <style>
@@ -74,13 +74,13 @@
     </div>
     <section class="info">
         <div id="share-buttons" class="flex mt-1 mb-1">
-            <a href="whatsapp://send?text={{ request.META.HTTP_HOST }}/{{ request.path }}">
+            <a href="whatsapp://send?text=https://{{ request.META.HTTP_HOST }}{{ request.path }}">
                 <img src="{% static 'images/icons/whatsapp.png' %}" alt="Share on WhatsApp" style="height:2.5em;"> 
             </a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.META.HTTP_HOST }}/{{ request.path }}">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://{{ request.META.HTTP_HOST }}{{ request.path }}">
                 <img src="{% static 'images/icons/facebook.png' %}" alt="Share on Facebook" style="height:2.5em;"> 
             </a>
-            <a href="https://twitter.com/intent/tweet?text=View%20{{ product.name }}%20at%20Jemmy%27s%20Collection.&url={{ request.META.HTTP_HOST }}/{{ request.path }}">
+            <a href="https://twitter.com/intent/tweet?text=View%20{{ product.name }}%20at%20Jemmy%27s%20Collection.&url=https://{{ request.META.HTTP_HOST }}{{ request.path }}">
                 <img src="{% static 'images/icons/twitter.png' %}" alt="Share on Twitter" style="height:2.5em;"> 
             </a>
         </div>
