@@ -7,7 +7,7 @@ verify_ssl = true
 autopep8 = "*"
 
 [packages]
-django = "*"
+django = ">=2.1.6"
 pylint-django = "*"
 pylint = "*"
 pillow = "*"
@@ -15,4 +15,4 @@ django-money = "*"
 djangoajax = "*"
 
 [requires]
-python_version = "3.6"
+python_version = ">=3.6"
