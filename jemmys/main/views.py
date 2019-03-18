@@ -22,7 +22,7 @@ def home(request):
     elif request.GET.get('name'):
         all_products = Product.objects.filter(name=request.GET['name'])
     else:
-        all_products = Product.objects.filter(variant_of=None)
+        all_products = Product.objects.filter(variant_of=None, quantity__gt=0)
     for prod in all_products:
         photos = ProductPhoto.objects.filter(product=prod)[:2]
         product = {'details': prod, 'photos': list()}
