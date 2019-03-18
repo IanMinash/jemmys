@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.shortcuts import redirect, get_object_or_404
 from django.conf import settings
@@ -64,6 +65,7 @@ def update_product(request, slug):
         form = NewProductForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
+            messages.success(request, "Product updated successfully!")
             if product.variant_of:
                 return redirect("managers:product", product.variant_of.slug)
             else:
@@ -81,6 +83,7 @@ def new_product(request):
             images = request.FILES.getlist('images')
             for image in images:
                 ProductPhoto.objects.create(photo=image, product=product)
+            messages.success(request, "Product added successfully!")
             return redirect("managers:products")
         else:
             context['form'] = form
@@ -107,7 +110,7 @@ def view_order(request, order_id):
     if request.method == "POST":
         order.status = request.POST.get("order_status")
         order.save(update_fields=["status"])
-        context['success'] = True
+        messages.success(request, "Order status has been updated!")
     return render(request, "managers/order.html", context=context)
 
 
@@ -122,6 +125,7 @@ def variant_manager(request):
                 images = request.FILES.getlist('images')
                 for image in images:
                     ProductPhoto.objects.create(photo=image, product=variant)
+                messages.success(request, "Variant added successfully!")
                 return redirect("managers:product", Product.objects.get(id=request.POST.get("variant_of")).slug)
     else:
         pass

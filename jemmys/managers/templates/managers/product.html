@@ -263,6 +263,17 @@
     {% endif %}
         
 </div>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="text-centered p-d5 st-s message bold">
+            {{ message }}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% endblock body_block %}
 
 {% block float_bottom_block %}
@@ -394,7 +405,13 @@
     tinyMCE.init({
         selector: "#descr_field",
         menubar: "edit view format",
-    })
+    });
+    setTimeout(function() {
+        var messages = document.querySelectorAll(".message");
+        messages.forEach(function(message){
+            message.remove();
+        });
+    }, 3000);
 </script>
 {% endblock script_block %}
     

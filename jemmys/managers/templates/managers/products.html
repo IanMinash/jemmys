@@ -47,5 +47,28 @@
         {% endfor %}
     </div>
 </div>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="text-centered p-d5 st-s message bold">
+            {{ message }}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% endblock body_block %}
+    
+
+{% block script_block %}
+<script>
+    setTimeout(function() {
+        var messages = document.querySelectorAll(".message");
+        messages.forEach(function(message){
+            message.remove();
+        })
+    }, 3000);
+</script>
+{% endblock script_block %}
     

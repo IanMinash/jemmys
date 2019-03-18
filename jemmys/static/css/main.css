@@ -164,6 +164,14 @@ a:hover {
   background: none;
 }
 
+.message {
+  position: fixed;
+  bottom: 0;
+  color: #fafafa;
+  width: 100%;
+  border-radius: 0 !important;
+}
+
 .title {
   font-weight: 600;
 }
