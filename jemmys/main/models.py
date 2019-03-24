@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.utils import timezone
 from django.core.validators import MinValueValidator
 from djmoney.models.fields import MoneyField
 from django.db.models.signals import post_save
@@ -40,6 +41,8 @@ class Product(models.Model):
         "self", on_delete=models.CASCADE, related_name='variants', blank=True, null=True)
     variant_info = models.CharField(max_length=50, blank=True, null=True)
     slug = models.SlugField(blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
     __prev_category = None
     __prev_price = None 
 
